@@ -1,0 +1,388 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`dao should create proposal correctly: proposal created 1`] = `
+[
+  {
+    "type": "deploy",
+  },
+  {
+    "message": {
+      "body": {
+        "cell": "x{13FF04DB0000000000000001C_}
+ x{D00}
+  x{2_}
+   x{8016E70217CF2CFA95CF8EAC53D43D58747DF7ECC6B1BDDBB657113AB3E03A2AAF600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000A_}
+    x{00000000746573742070726F706F73616C}
+  x{2_}
+   x{8016E70217CF2CFA95CF8EAC53D43D58747DF7ECC6B1BDDBB657113AB3E03A2AAF600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000A_}
+    x{00000000746573742070726F706F73616C2032}",
+        "type": "cell",
+      },
+      "bounce": true,
+      "from": "kQAI-3FJVc_ywSuY4vq0bYrzR7S4Och4y7bTU_i5yLOB3A6P",
+      "to": "kQDIMPoYX_nubzHxb4UKn8CD-7BsdLRO4RC4u24jVoeOJBMR",
+      "type": "internal",
+      "value": 2100000000n,
+    },
+    "type": "received",
+  },
+  {
+    "gasUsed": 17780n,
+    "type": "processed",
+  },
+  {
+    "messages": [
+      {
+        "body": {
+          "cell": "x{946A98B60000000000000001}",
+          "type": "cell",
+        },
+        "bounce": false,
+        "from": "kQDIMPoYX_nubzHxb4UKn8CD-7BsdLRO4RC4u24jVoeOJBMR",
+        "to": "kQCY-h8cn41wBythFukud01B_xkWaNNVVXkLPWEyspMSSXxq",
+        "type": "internal",
+        "value": 2065001000n,
+      },
+    ],
+    "type": "sent",
+  },
+]
+`;
+
+exports[`dao should execute proposal correctly: proposal executed 1`] = `
+[
+  {
+    "message": {
+      "body": {
+        "cell": "x{17E7B8D3C_}
+ x{D00}
+  x{2_}
+   x{80011F6E292AB9FE5825731C5F568DB15E68F69707390F1976DA6A7F173916703B8000000000000000000000000000000000000000000000000000000003B9ACA000000000000000000000000000000000000000000000000000000000000000000A_}
+    x{00000000746573742070726F706F73616C}
+  x{2_}
+   x{8012B3B3A9D3FC4B5C62F80F98DD957DF46D5ADF361B39CA1BC6DA803B4BB6F36E0000000000000000000000000000000000000000000000000000000003B9ACA000000000000000000000000000000000000000000000000000000000000000000A_}
+    x{00000000746573742070726F706F73616C2032}",
+        "type": "cell",
+      },
+      "bounce": false,
+      "from": "kQD_hGt0d2ooxzZIOdnFf6k6Q3k2JDk0_VSGLkhxsKMsoIrJ",
+      "to": "kQDIMPoYX_nubzHxb4UKn8CD-7BsdLRO4RC4u24jVoeOJBMR",
+      "type": "internal",
+      "value": 2939342000n,
+    },
+    "type": "received",
+  },
+  {
+    "gasUsed": 20364n,
+    "type": "processed",
+  },
+  {
+    "messages": [
+      {
+        "body": {
+          "text": "test proposal",
+          "type": "text",
+        },
+        "bounce": false,
+        "from": "kQDIMPoYX_nubzHxb4UKn8CD-7BsdLRO4RC4u24jVoeOJBMR",
+        "to": "kQAI-3FJVc_ywSuY4vq0bYrzR7S4Och4y7bTU_i5yLOB3A6P",
+        "type": "internal",
+        "value": 1000000000n,
+      },
+    ],
+    "type": "sent",
+  },
+  {
+    "messages": [
+      {
+        "body": {
+          "text": "test proposal 2",
+          "type": "text",
+        },
+        "bounce": false,
+        "from": "kQDIMPoYX_nubzHxb4UKn8CD-7BsdLRO4RC4u24jVoeOJBMR",
+        "to": "kQCVnZ1On-Ja4xfAfMbsq--jatb5sNnOUN421AHaXbebcCWH",
+        "type": "internal",
+        "value": 1000000000n,
+      },
+    ],
+    "type": "sent",
+  },
+]
+`;
+
+exports[`dao should execute proposal correctly: voting finished (agree) 1`] = `
+[
+  {
+    "message": {
+      "body": {
+        "text": "Agree",
+        "type": "text",
+      },
+      "bounce": true,
+      "from": "kQAI-3FJVc_ywSuY4vq0bYrzR7S4Och4y7bTU_i5yLOB3A6P",
+      "to": "kQD_hGt0d2ooxzZIOdnFf6k6Q3k2JDk0_VSGLkhxsKMsoIrJ",
+      "type": "internal",
+      "value": 1000000000n,
+    },
+    "type": "received",
+  },
+  {
+    "gasUsed": 7145n,
+    "type": "processed",
+  },
+  {
+    "message": {
+      "body": {
+        "text": "Agree",
+        "type": "text",
+      },
+      "bounce": true,
+      "from": "kQCVnZ1On-Ja4xfAfMbsq--jatb5sNnOUN421AHaXbebcCWH",
+      "to": "kQD_hGt0d2ooxzZIOdnFf6k6Q3k2JDk0_VSGLkhxsKMsoIrJ",
+      "type": "internal",
+      "value": 1000000000n,
+    },
+    "type": "received",
+  },
+  {
+    "gasUsed": 10781n,
+    "type": "processed",
+  },
+  {
+    "messages": [
+      {
+        "body": {
+          "cell": "x{17E7B8D3C_}
+ x{D00}
+  x{2_}
+   x{80011F6E292AB9FE5825731C5F568DB15E68F69707390F1976DA6A7F173916703B8000000000000000000000000000000000000000000000000000000003B9ACA000000000000000000000000000000000000000000000000000000000000000000A_}
+    x{00000000746573742070726F706F73616C}
+  x{2_}
+   x{8012B3B3A9D3FC4B5C62F80F98DD957DF46D5ADF361B39CA1BC6DA803B4BB6F36E0000000000000000000000000000000000000000000000000000000003B9ACA000000000000000000000000000000000000000000000000000000000000000000A_}
+    x{00000000746573742070726F706F73616C2032}",
+          "type": "cell",
+        },
+        "bounce": false,
+        "from": "kQD_hGt0d2ooxzZIOdnFf6k6Q3k2JDk0_VSGLkhxsKMsoIrJ",
+        "to": "kQDIMPoYX_nubzHxb4UKn8CD-7BsdLRO4RC4u24jVoeOJBMR",
+        "type": "internal",
+        "value": 2939342000n,
+      },
+    ],
+    "type": "sent",
+  },
+]
+`;
+
+exports[`dao should split if zero balance 1`] = `
+[
+  {
+    "type": "deploy",
+  },
+  {
+    "message": {
+      "body": {
+        "cell": "x{23D421E100000000000000E4}",
+        "type": "cell",
+      },
+      "bounce": false,
+      "from": "kQC3OBC-eWfUrnx1Yp6h6sOj779mNY3u3bK4idWfAdFVe7sB",
+      "to": "kQBOLxjVTEBXoxP67XfkTgaiAUjejea6CBvFnpqzqSZp0-zN",
+      "type": "internal",
+      "value": 10000000000n,
+    },
+    "type": "received",
+  },
+  {
+    "gasUsed": 69373n,
+    "type": "processed",
+  },
+  {
+    "messages": [
+      {
+        "body": {
+          "text": "1/3 of 9.9 (whales revenue share)",
+          "type": "text",
+        },
+        "bounce": false,
+        "from": "kQBOLxjVTEBXoxP67XfkTgaiAUjejea6CBvFnpqzqSZp0-zN",
+        "to": "kQABTCJQINMOMK9EDPnEZcDqDqJplijCq6QE7qeQaU4blSwM",
+        "type": "internal",
+        "value": 3298604000n,
+      },
+    ],
+    "type": "sent",
+  },
+  {
+    "messages": [
+      {
+        "body": {
+          "text": "1/3 of 9.9 (whales revenue share)",
+          "type": "text",
+        },
+        "bounce": false,
+        "from": "kQBOLxjVTEBXoxP67XfkTgaiAUjejea6CBvFnpqzqSZp0-zN",
+        "to": "kQAI-3FJVc_ywSuY4vq0bYrzR7S4Och4y7bTU_i5yLOB3A6P",
+        "type": "internal",
+        "value": 3298604000n,
+      },
+    ],
+    "type": "sent",
+  },
+  {
+    "messages": [
+      {
+        "body": {
+          "text": "1/3 of 9.9 (whales revenue share)",
+          "type": "text",
+        },
+        "bounce": false,
+        "from": "kQBOLxjVTEBXoxP67XfkTgaiAUjejea6CBvFnpqzqSZp0-zN",
+        "to": "kQCVnZ1On-Ja4xfAfMbsq--jatb5sNnOUN421AHaXbebcCWH",
+        "type": "internal",
+        "value": 3298604000n,
+      },
+    ],
+    "type": "sent",
+  },
+]
+`;
+
+exports[`dao should split revenue correctly 1`] = `
+[
+  {
+    "type": "deploy",
+  },
+  {
+    "message": {
+      "body": {
+        "text": "Gift",
+        "type": "text",
+      },
+      "bounce": true,
+      "from": "kQC3OBC-eWfUrnx1Yp6h6sOj779mNY3u3bK4idWfAdFVe7sB",
+      "to": "kQDIMPoYX_nubzHxb4UKn8CD-7BsdLRO4RC4u24jVoeOJBMR",
+      "type": "internal",
+      "value": 2100000000n,
+    },
+    "type": "received",
+  },
+  {
+    "gasUsed": 47921n,
+    "type": "processed",
+  },
+  {
+    "messages": [
+      {
+        "body": {
+          "text": "1/2 of 2 (whales revenue share)",
+          "type": "text",
+        },
+        "bounce": false,
+        "from": "kQDIMPoYX_nubzHxb4UKn8CD-7BsdLRO4RC4u24jVoeOJBMR",
+        "to": "kQAI-3FJVc_ywSuY4vq0bYrzR7S4Och4y7bTU_i5yLOB3A6P",
+        "type": "internal",
+        "value": 998620000n,
+      },
+    ],
+    "type": "sent",
+  },
+  {
+    "messages": [
+      {
+        "body": {
+          "text": "1/2 of 2 (whales revenue share)",
+          "type": "text",
+        },
+        "bounce": false,
+        "from": "kQDIMPoYX_nubzHxb4UKn8CD-7BsdLRO4RC4u24jVoeOJBMR",
+        "to": "kQCVnZ1On-Ja4xfAfMbsq--jatb5sNnOUN421AHaXbebcCWH",
+        "type": "internal",
+        "value": 998620000n,
+      },
+    ],
+    "type": "sent",
+  },
+]
+`;
+
+exports[`dao should terminate proposal correctly: proposal terminated 1`] = `
+[
+  {
+    "message": {
+      "body": {
+        "text": "Terminated",
+        "type": "text",
+      },
+      "bounce": false,
+      "from": "kQD_hGt0d2ooxzZIOdnFf6k6Q3k2JDk0_VSGLkhxsKMsoIrJ",
+      "to": "kQDIMPoYX_nubzHxb4UKn8CD-7BsdLRO4RC4u24jVoeOJBMR",
+      "type": "internal",
+      "value": 2939885000n,
+    },
+    "type": "received",
+  },
+  {
+    "gasUsed": 4215n,
+    "type": "processed",
+  },
+]
+`;
+
+exports[`dao should terminate proposal correctly: voting finished (disagree) 1`] = `
+[
+  {
+    "message": {
+      "body": {
+        "text": "Disagree",
+        "type": "text",
+      },
+      "bounce": true,
+      "from": "kQAI-3FJVc_ywSuY4vq0bYrzR7S4Och4y7bTU_i5yLOB3A6P",
+      "to": "kQD_hGt0d2ooxzZIOdnFf6k6Q3k2JDk0_VSGLkhxsKMsoIrJ",
+      "type": "internal",
+      "value": 1000000000n,
+    },
+    "type": "received",
+  },
+  {
+    "gasUsed": 7294n,
+    "type": "processed",
+  },
+  {
+    "message": {
+      "body": {
+        "text": "Disagree",
+        "type": "text",
+      },
+      "bounce": true,
+      "from": "kQCVnZ1On-Ja4xfAfMbsq--jatb5sNnOUN421AHaXbebcCWH",
+      "to": "kQD_hGt0d2ooxzZIOdnFf6k6Q3k2JDk0_VSGLkhxsKMsoIrJ",
+      "type": "internal",
+      "value": 1000000000n,
+    },
+    "type": "received",
+  },
+  {
+    "gasUsed": 12578n,
+    "type": "processed",
+  },
+  {
+    "messages": [
+      {
+        "body": {
+          "text": "Terminated",
+          "type": "text",
+        },
+        "bounce": false,
+        "from": "kQD_hGt0d2ooxzZIOdnFf6k6Q3k2JDk0_VSGLkhxsKMsoIrJ",
+        "to": "kQDIMPoYX_nubzHxb4UKn8CD-7BsdLRO4RC4u24jVoeOJBMR",
+        "type": "internal",
+        "value": 2939885000n,
+      },
+    ],
+    "type": "sent",
+  },
+]
+`;

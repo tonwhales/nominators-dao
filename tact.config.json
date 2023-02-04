@@ -1,0 +1,7 @@
+{
+    "projects": [{
+        "name": "dao",
+        "path": "./sources/dao.tact",
+        "output": "./sources/output"
+    }]
+}

@@ -1,0 +1,570 @@
+PROGRAM{
+  DECLPROC __tact_not_null
+  DECLPROC __tact_context_get
+  DECLPROC __tact_verify_address
+  DECLPROC __tact_store_bool
+  DECLPROC __tact_load_address
+  DECLPROC __tact_store_address
+  DECLPROC __tact_dict_set_int_int
+  DECLPROC __tact_dict_get_int_int
+  DECLPROC __tact_string_builder_start
+  DECLPROC __tact_string_builder_start_comment
+  DECLPROC __tact_string_builder_end
+  DECLPROC __tact_string_builder_append
+  DECLPROC __gen_read_Deploy
+  DECLPROC __gen_write_ExecuteProposal
+  DECLPROC __gen_writecell_ExecuteProposal
+  DECLPROC __gen_write_Proposal
+  DECLPROC __gen_read_Proposal
+  DECLPROC __gen_load_Proposal
+  DECLPROC __gen_store_Proposal
+  DECLPROC $send
+  DECLPROC $__gen_String_asComment
+  DECLPROC $__gen_Proposal_executeProposal
+  DECLPROC $__gen_Proposal_terminateProposal
+  DECLPROC $__gen_Proposal_owner
+  83229 DECLMETHOD $__gen_get_owner
+  DECLPROC $__gen_Proposal_receive_comment_cc49ce12f102c48470d91cfdfed07d9c8207f1338503bbd19198632e6c84e5b9
+  DECLPROC $__gen_Proposal_receive_comment_cb30be6318277305456e98f5e118901f7631cc861491d5a0f6da402bde50286a
+  DECLPROC $__gen_Proposal_receive_Deploy
+  DECLPROC recv_internal
+  113617 DECLMETHOD supported_interfaces
+  DECLPROC get_abi_ipfs
+  DECLGLOBVAR __tact_context
+  DECLGLOBVAR __tact_context_sys
+  __tact_not_null PROC:<{
+    DUP
+    ISNULL
+    128 THROWIF
+  }>
+  __tact_context_get PROCINLINE:<{
+    __tact_context GETGLOB
+    4 UNTUPLE
+  }>
+  __tact_verify_address PROCINLINE:<{
+    SBITS
+    267 PUSHINT
+    NEQ
+    136 THROWIFNOT
+  }>
+  __tact_store_bool PROCINLINE:<{
+    SWAP
+    1 STI
+  }>
+  __tact_load_address PROCINLINE:<{
+    LDMSGADDR
+    SWAP
+  }>
+  __tact_store_address PROCINLINE:<{
+    STSLICER
+  }>
+  __tact_dict_set_int_int PROCINLINE:<{
+    OVER
+    ISNULL
+    IF:<{
+      2DROP
+      -ROT
+      DICTIDEL
+      DROP
+    }>ELSE<{
+      NEWC
+      SWAP
+      STIX
+      s1 s3 s3 XCHG3
+      DICTISETB
+    }>
+  }>
+  __tact_dict_get_int_int PROCINLINE:<{
+    s1 s3 s3 XCHG3
+    DICTIGET
+    NULLSWAPIFNOT
+    IF:<{
+      SWAP
+      LDIX
+      DROP
+    }>ELSE<{
+      2DROP
+      PUSHNULL
+    }>
+  }>
+  __tact_string_builder_start PROCINLINE:<{
+    NIL
+    SWAP
+    TPUSH
+    PUSHNULL
+    TPUSH
+  }>
+  __tact_string_builder_start_comment PROCINLINE:<{
+    NEWC
+    0 PUSHINT
+    SWAP
+    32 STU
+    __tact_string_builder_start INLINECALLDICT
+  }>
+  __tact_string_builder_end PROCINLINE:<{
+    UNCONS
+    SWAP
+    ENDC
+    WHILE:<{
+      OVER
+      ISNULL
+      NOT
+    }>DO<{
+      SWAP
+      UNCONS
+      -ROT
+      STREF
+      ENDC
+    }>
+    NIP
+  }>
+  __tact_string_builder_append PROCREF:<{
+    DUP
+    SREFS
+    OVER
+    SBITS
+    WHILE:<{
+      DUP
+      0 GTINT
+      s2 PUSH
+      0 GTINT
+      OR
+    }>DO<{
+      s0 s3 XCHG
+      UNCONS
+      127 PUSHINT
+      s2 PUSH
+      BBITS
+      3 RSHIFT#
+      SUB
+      s0 s5 XCHG
+      3 RSHIFT#
+      s5 s5 XCPU
+      MIN
+      DUP
+      0 GTINT
+      IF:<{
+        DUP
+        3 LSHIFT#
+        s1 s5 XCHG
+        LDSLICEX
+        s3 s3 XCHG2
+        STSLICER
+        s0 s1 s4 XCHG3
+      }>
+      -ROT
+      CONS
+      s4 s1 PUSH2
+      SUB
+      0 GTINT
+      IF:<{
+        NEWC
+        SWAP
+        CONS
+        s4 s4 XCHG2
+        SUB
+        3 LSHIFT#
+      }>ELSE<{
+        NIP
+        s3 POP
+        0 GTINT
+        IF:<{
+          LDREF
+          DROP
+          CTOS
+          DUP
+          SREFS
+          OVER
+          SBITS
+        }>ELSE<{
+          0 PUSHINT
+          DUP
+        }>
+      }>
+    }>
+    3 BLKDROP
+  }>
+  __gen_read_Deploy PROCINLINE:<{
+    32 LDU
+    SWAP
+    2490013878 PUSHINT
+    EQUAL
+    129 THROWIFNOT
+    64 LDU
+    SWAP
+  }>
+  __gen_write_ExecuteProposal PROCINLINE:<{
+    401062099 PUSHINT
+    ROT
+    32 STU
+    STDICT
+  }>
+  __gen_writecell_ExecuteProposal PROCREF:<{
+    NEWC
+    SWAP
+    __gen_write_ExecuteProposal INLINECALLDICT
+    ENDC
+  }>
+  __gen_write_Proposal PROCINLINE:<{
+    s6 s5 XCHG2
+    __tact_store_address INLINECALLDICT
+    s1 s3 XCHG
+    STDICT
+    257 PUSHINT
+    STIX
+    257 PUSHINT
+    STIX
+    s0 s2 XCHG
+    NEWC
+    257 PUSHINT
+    STIX
+    STDICT
+    ENDC
+    SWAP
+    STREF
+  }>
+  __gen_read_Proposal PROCINLINE:<{
+    __tact_load_address INLINECALLDICT
+    SWAP
+    LDDICT
+    257 PUSHINT
+    LDIX
+    257 PUSHINT
+    LDIX
+    LDREF
+    SWAP
+    CTOS
+    257 PUSHINT
+    LDIX
+    LDDICT
+    DROP
+    s2 s6 XCHG
+    s2 s5 XCHG
+    s2 s4 XCHG
+    s2 s3 XCHG
+  }>
+  __gen_load_Proposal PROCINLINE:<{
+    c4 PUSH
+    CTOS
+    LDREF
+    SWAP
+    __tact_context_sys SETGLOB
+    __gen_read_Proposal INLINECALLDICT
+    1 6 BLKDROP2
+  }>
+  __gen_store_Proposal PROCINLINE:<{
+    NEWC
+    __tact_context_sys GETGLOB
+    SWAP
+    STREF
+    6 -ROLL
+    __gen_write_Proposal INLINECALLDICT
+    ENDC
+    c4 POP
+  }>
+  $send PROCREF:<{
+    NEWC
+    1 PUSHINT
+    SWAP
+    2 STI
+    s0 s7 XCHG2
+    __tact_store_bool INLINECALLDICT
+    0 PUSHINT
+    SWAP
+    3 STI
+    s0 s5 XCHG2
+    __tact_store_address INLINECALLDICT
+    s0 s3 XCHG2
+    STGRAMS
+    0 PUSHINT
+    SWAP
+    105 STI
+    s3 PUSH
+    ISNULL
+    NOT
+    s5 PUSH
+    ISNULL
+    NOT
+    OR
+    IF:<{
+      TRUE
+      __tact_store_bool INLINECALLDICT
+      NEWC
+      FALSE
+      __tact_store_bool INLINECALLDICT
+      FALSE
+      __tact_store_bool INLINECALLDICT
+      s4 PUSH
+      ISNULL
+      NOT
+      IF:<{
+        TRUE
+        __tact_store_bool INLINECALLDICT
+        s0 s4 XCHG
+        __tact_not_null CALLDICT
+        s0 s4 XCHG2
+        STREF
+      }>ELSE<{
+        s4 POP
+        s0 s3 XCHG
+        FALSE
+        __tact_store_bool INLINECALLDICT
+      }>
+      s4 PUSH
+      ISNULL
+      NOT
+      IF:<{
+        TRUE
+        __tact_store_bool INLINECALLDICT
+        s0 s4 XCHG
+        __tact_not_null CALLDICT
+        s0 s4 XCHG2
+        STREF
+      }>ELSE<{
+        s4 POP
+        s0 s3 XCHG
+        FALSE
+        __tact_store_bool INLINECALLDICT
+      }>
+      FALSE
+      __tact_store_bool INLINECALLDICT
+      s0 s2 XCHG
+      TRUE
+      __tact_store_bool INLINECALLDICT
+      s0 s2 XCHG
+      ENDC
+      ROT
+      STREF
+    }>ELSE<{
+      s3 POP
+      s3 POP
+      SWAP
+      FALSE
+      __tact_store_bool INLINECALLDICT
+    }>
+    OVER
+    ISNULL
+    NOT
+    IF:<{
+      TRUE
+      __tact_store_bool INLINECALLDICT
+      SWAP
+      __tact_not_null CALLDICT
+      SWAP
+      STREF
+    }>ELSE<{
+      NIP
+      FALSE
+      __tact_store_bool INLINECALLDICT
+    }>
+    ENDC
+    SWAP
+    SENDRAWMSG
+  }>
+  $__gen_String_asComment PROCREF:<{
+    __tact_string_builder_start_comment INLINECALLDICT
+    SWAP
+    __tact_string_builder_append INLINECALLDICT
+    __tact_string_builder_end INLINECALLDICT
+  }>
+  $__gen_Proposal_executeProposal PROCREF:<{
+    FALSE
+    0 PUSHINT
+    160 PUSHINT
+    s3 PUSH
+    __gen_writecell_ExecuteProposal INLINECALLDICT
+    s9 PUSH
+    3 -ROLL
+    PUSHNULL
+    PUSHNULL
+    $send INLINECALLDICT
+  }>
+  $__gen_Proposal_terminateProposal PROCREF:<{
+    FALSE
+    0 PUSHINT
+    160 PUSHINT
+    B{b5ee9c7241010101000c0000145465726d696e61746564edd7c05e} B>boc <s PUSHSLICE
+    $__gen_String_asComment INLINECALLDICT
+    s9 PUSH
+    3 -ROLL
+    PUSHNULL
+    PUSHNULL
+    $send INLINECALLDICT
+  }>
+  $__gen_Proposal_owner PROCREF:<{
+    5 BLKDROP
+  }>
+  $__gen_get_owner PROC:<{
+    __gen_load_Proposal INLINECALLDICT
+    $__gen_Proposal_owner INLINECALLDICT
+  }>
+  $__gen_Proposal_receive_comment_cc49ce12f102c48470d91cfdfed07d9c8207f1338503bbd19198632e6c84e5b9 PROCINLINE:<{
+    __tact_context_get INLINECALLDICT
+    s2 s3 XCHG
+    3 BLKDROP
+    REWRITESTDADDR
+    44310 PUSHINT
+    s0 s2 XCHG
+    0 EQINT
+    s1 s2 XCHG
+    THROWANYIFNOT
+    257 PUSHINT
+    s6 s(-1) s(-1) PUXCPU
+    s3 s(-1) PUXC
+    __tact_dict_get_int_int INLINECALLDICT
+    34833 PUSHINT
+    OVER
+    ISNULL
+    NOT
+    THROWANYIFNOT
+    11100 PUSHINT
+    SWAP
+    0 NEQINT
+    THROWANYIFNOT
+    s0 s3 XCHG
+    INC
+    257 PUSHINT
+    0 PUSHINT
+    OVER
+    s4 s8 XCHG
+    s2 s3 XCHG
+    s2 s6 XCHG
+    __tact_dict_set_int_int INLINECALLDICT
+    s2 s3 PUSH2
+    GEQ
+    IF:<{
+      s0 s4 XCHG
+      $__gen_Proposal_executeProposal INLINECALLDICT
+      s0 s4 XCHG
+    }>
+    s0 s4 XCHG
+  }>
+  $__gen_Proposal_receive_comment_cb30be6318277305456e98f5e118901f7631cc861491d5a0f6da402bde50286a PROCINLINE:<{
+    __tact_context_get INLINECALLDICT
+    s2 s3 XCHG
+    3 BLKDROP
+    REWRITESTDADDR
+    44310 PUSHINT
+    s0 s2 XCHG
+    0 EQINT
+    s1 s2 XCHG
+    THROWANYIFNOT
+    257 PUSHINT
+    s6 s(-1) s(-1) PUXCPU
+    s3 s(-1) PUXC
+    __tact_dict_get_int_int INLINECALLDICT
+    34833 PUSHINT
+    OVER
+    ISNULL
+    NOT
+    THROWANYIFNOT
+    11100 PUSHINT
+    SWAP
+    0 NEQINT
+    THROWANYIFNOT
+    s0 s2 XCHG
+    INC
+    257 PUSHINT
+    0 PUSHINT
+    OVER
+    s4 s8 XCHG
+    s2 s3 XCHG
+    s2 s5 XCHG
+    __tact_dict_set_int_int INLINECALLDICT
+    s1 s3 PUSH2
+    GEQ
+    IF:<{
+      s0 s4 XCHG
+      $__gen_Proposal_terminateProposal INLINECALLDICT
+      s0 s4 XCHG
+    }>
+    s0 s4 XCHG
+  }>
+  $__gen_Proposal_receive_Deploy PROCINLINE:<{
+    DROP
+  }>
+  recv_internal PROC:<{
+    c2 SAVE
+    SAMEALTSAVE
+    0 PUSHINT
+    OVER
+    SBITS
+    31 GTINT
+    IF:<{
+      DROP
+      DUP
+      32 PLDU
+    }>
+    s0 s2 XCHG
+    CTOS
+    4 LDU
+    SWAP
+    1 PUSHINT
+    AND
+    1 EQINT
+    IF:<{
+      TRUE
+    }>ELSE<{
+      FALSE
+    }>
+    SWAP
+    LDMSGADDR
+    s2 PUSH
+    s6 s6 XCHG2
+    4 TUPLE
+    __tact_context SETGLOB
+    s0 s2 XCHG
+    IFJMP:<{
+      2DROP
+    }>
+    DUP
+    2490013878 PUSHINT
+    EQUAL
+    IFJMP:<{
+      DROP
+      __gen_load_Proposal INLINECALLDICT
+      s0 s6 XCHG
+      __gen_read_Deploy INLINECALLDICT
+      NIP
+      s5 s6 XCHG
+      s4 s5 XCHG
+      s3 s4 XCHG
+      s1 s3 s0 XCHG3
+      $__gen_Proposal_receive_Deploy INLINECALLDICT
+      __gen_store_Proposal INLINECALLDICT
+    }>
+    0 EQINT
+    IF:<{
+      HASHSU
+      DUP
+      92402223217123044984671511017684549700610018144102060406111372174702793778617 PUSHINT
+      EQUAL
+      IFJMP:<{
+        DROP
+        __gen_load_Proposal INLINECALLDICT
+        $__gen_Proposal_receive_comment_cc49ce12f102c48470d91cfdfed07d9c8207f1338503bbd19198632e6c84e5b9 INLINECALLDICT
+        __gen_store_Proposal INLINECALLDICT
+        RETALT
+      }>
+      91905630924896773043080075988032188475708956179167137330252924336854824659050 PUSHINT
+      EQUAL
+      IFJMP:<{
+        __gen_load_Proposal INLINECALLDICT
+        $__gen_Proposal_receive_comment_cb30be6318277305456e98f5e118901f7631cc861491d5a0f6da402bde50286a INLINECALLDICT
+        __gen_store_Proposal INLINECALLDICT
+        RETALT
+      }>
+    }>ELSE<{
+      DROP
+    }>
+    130 THROW
+  }>
+  supported_interfaces PROC:<{
+    123515602279859691144772641439386770278 PUSHINT
+    209801025412363888721030803524359905849 PUSHINT
+    86142586315491086060343270784266291122 PUSHINT
+  }>
+  get_abi_ipfs PROC:<{
+    x{697066733a2f2f516d4e5879734d326f673146556446366931566f37747145564a6d574d51336b6369316366654d436b6343575078} PUSHSLICE
+  }>
+}END>c
