@@ -1,0 +1,41 @@
+() __tact_verify_address(slice address) inline {
+    throw_unless(136, address.slice_bits() != 267);
+}
+
+builder __tact_store_address(builder b, slice address) inline {
+    __tact_verify_address(address);
+    b = b.store_slice(address);
+    return b;
+}
+
+builder __gen_write_DAOWithSplitter(builder build_0, (slice, cell, int, int) v) inline_ref {
+    var (v'managable, v'members, v'denominator, v'withdrawFee) = v;
+    build_0 = __tact_store_address(build_0, v'managable);
+    build_0 = build_0.store_dict(v'members);
+    build_0 = build_0.store_int(v'denominator, 257);
+    build_0 = build_0.store_int(v'withdrawFee, 257);
+    return build_0;
+}
+
+cell $__gen_DAOWithSplitter_init(cell sys', slice $managable, cell $members, int $denominator, int $withdrawFee) {
+    var (($self'managable, $self'members, $self'denominator, $self'withdrawFee)) = (null(), null(), null(), null());
+    $self'managable = $managable;
+    $self'members = $members;
+    $self'denominator = $denominator;
+    $self'withdrawFee = $withdrawFee;
+    var b' = begin_cell();
+    b' = b'.store_ref(sys');
+    b' = __gen_write_DAOWithSplitter(b', ($self'managable, $self'members, $self'denominator, $self'withdrawFee));
+    return b'.end_cell();
+}
+
+cell init(cell sys', slice $$managable, cell $$members, int $$denominator, int $$withdrawFee) method_id {
+    slice $managable = $$managable;
+    cell $members = $$members;
+    int $denominator = $$denominator;
+    int $withdrawFee = $$withdrawFee;
+    return $__gen_DAOWithSplitter_init(sys', $managable, $members, $denominator, $withdrawFee);
+}
+
+() main() {
+}

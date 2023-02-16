@@ -1,0 +1,1173 @@
+PROGRAM{
+  DECLPROC __tact_my_balance
+  DECLPROC __tact_not_null
+  DECLPROC __tact_context_get
+  DECLPROC __tact_verify_address
+  DECLPROC __tact_prepare_random
+  DECLPROC __tact_store_bool
+  DECLPROC __tact_load_address
+  DECLPROC __tact_store_address
+  DECLPROC __tact_create_address
+  DECLPROC __tact_compute_contract_address
+  DECLPROC __tact_dict_get_int_int
+  DECLPROC __tact_dict_get_int_cell
+  DECLPROC __tact_address_eq
+  DECLPROC __tact_dict_set_code
+  DECLPROC __tact_dict_get_code
+  DECLPROC __tact_string_builder_start
+  DECLPROC __tact_string_builder_start_comment
+  DECLPROC __tact_string_builder_end
+  DECLPROC __tact_string_builder_append
+  DECLPROC __tact_int_to_string
+  DECLPROC __tact_float_to_string
+  DECLPROC __gen_write_Deploy
+  DECLPROC __gen_writecell_Deploy
+  DECLPROC __gen_read_ProposedMessage
+  DECLPROC __gen_ProposedMessage_as_optional
+  DECLPROC __gen_readopt_ProposedMessage
+  DECLPROC __gen_read_ExecuteProposal
+  DECLPROC __gen_read_CreateProposal
+  DECLPROC __gen_write_WithdrawStake
+  DECLPROC __gen_writecell_WithdrawStake
+  DECLPROC __gen_read_WithdrawStakeResponse
+  DECLPROC __gen_read_WithdrawStakeDelayed
+  DECLPROC __gen_write_Proposal
+  DECLPROC __gen_write_DAOWithSplitter
+  DECLPROC __gen_read_DAOWithSplitter
+  DECLPROC __gen_ProposedMessage_not_null
+  DECLPROC __gen_load_DAOWithSplitter
+  DECLPROC __gen_store_DAOWithSplitter
+  DECLPROC $random
+  DECLPROC $contractAddress
+  DECLPROC $send
+  DECLPROC $__gen_Builder_asSlice
+  DECLPROC $serlializeAddress
+  DECLPROC $__gen_Int_toCoinsString
+  DECLPROC $__gen_Proposal_init
+  DECLPROC $__gen_Proposal_init_child
+  DECLPROC $__gen_DAOWithSplitter_splitAndSend
+  DECLPROC $__gen_DAOWithSplitter_memberShare
+  79283 DECLMETHOD $__gen_get_memberShare
+  DECLPROC $__gen_DAOWithSplitter_membersCount
+  115094 DECLMETHOD $__gen_get_membersCount
+  DECLPROC $__gen_DAOWithSplitter_minimumVotes
+  108210 DECLMETHOD $__gen_get_minimumVotes
+  DECLPROC $__gen_DAOWithSplitter_receive_ExecuteProposal
+  DECLPROC $__gen_DAOWithSplitter_receive_CreateProposal
+  DECLPROC $__gen_DAOWithSplitter_receive_comment_088498875f54c5f944f42d323f454dea2c39c21a7288b107cfbf31c5746228df
+  DECLPROC $__gen_DAOWithSplitter_receive_comment_c1c11d1f7fd92f290d981a0199b5192a8987f40e1ee7bf341a386bae13dbc5e5
+  DECLPROC $__gen_DAOWithSplitter_receive_comment_250b76e2b9576fc6b4c45129483006b0003a0c39b6f7ae413d177f4e3479dbca
+  DECLPROC $__gen_DAOWithSplitter_receive_comment_05a0b75ac6180d673399ec546c374c22ad7b54bfcf16d736fc78e9e173d87372
+  DECLPROC $__gen_DAOWithSplitter_receive_WithdrawStakeResponse
+  DECLPROC $__gen_DAOWithSplitter_receive_WithdrawStakeDelayed
+  DECLPROC recv_internal
+  113617 DECLMETHOD supported_interfaces
+  DECLPROC get_abi_ipfs
+  DECLGLOBVAR __tact_context
+  DECLGLOBVAR __tact_context_sys
+  DECLGLOBVAR __tact_randomized
+  __tact_my_balance PROCINLINE:<{
+    BALANCE
+    FIRST
+  }>
+  __tact_not_null PROC:<{
+    DUP
+    ISNULL
+    128 THROWIF
+  }>
+  __tact_context_get PROCINLINE:<{
+    __tact_context GETGLOB
+    4 UNTUPLE
+  }>
+  __tact_verify_address PROCINLINE:<{
+    SBITS
+    267 PUSHINT
+    NEQ
+    136 THROWIFNOT
+  }>
+  __tact_prepare_random PROCINLINE:<{
+    __tact_randomized GETGLOB
+    ISNULL
+    IF:<{
+      LTIME
+      ADDRAND
+      TRUE
+      __tact_randomized SETGLOB
+    }>
+  }>
+  __tact_store_bool PROCINLINE:<{
+    SWAP
+    1 STI
+  }>
+  __tact_load_address PROCINLINE:<{
+    LDMSGADDR
+    SWAP
+  }>
+  __tact_store_address PROCINLINE:<{
+    STSLICER
+  }>
+  __tact_create_address PROCINLINE:<{
+    NEWC
+    2 PUSHINT
+    SWAP
+    2 STU
+    0 PUSHINT
+    SWAP
+    1 STU
+    s1 s2 XCHG
+    8 STI
+    256 STU
+    ENDC
+    CTOS
+  }>
+  __tact_compute_contract_address PROCINLINE:<{
+    NEWC
+    0 PUSHINT
+    SWAP
+    2 STU
+    3 PUSHINT
+    SWAP
+    2 STU
+    0 PUSHINT
+    SWAP
+    1 STU
+    s1 s2 XCHG
+    STREF
+    STREF
+    ENDC
+    HASHCU
+    __tact_create_address INLINECALLDICT
+  }>
+  __tact_dict_get_int_int PROCINLINE:<{
+    s1 s3 s3 XCHG3
+    DICTIGET
+    NULLSWAPIFNOT
+    IF:<{
+      SWAP
+      LDIX
+      DROP
+    }>ELSE<{
+      2DROP
+      PUSHNULL
+    }>
+  }>
+  __tact_dict_get_int_cell PROC:<{
+    -ROT
+    DICTIGETREF
+    NULLSWAPIFNOT
+    IFJMP:<{
+    }>
+    DROP
+    PUSHNULL
+  }>
+  __tact_address_eq PROCINLINE:<{
+    SDEQ
+  }>
+  __tact_dict_set_code PROCINLINE:<{
+    s0 s2 XCHG
+    16 PUSHINT
+    DICTUSETREF
+  }>
+  __tact_dict_get_code PROCINLINE:<{
+    SWAP
+    16 PUSHINT
+    DICTUGETREF
+    NULLSWAPIFNOT
+    135 THROWIFNOT
+  }>
+  __tact_string_builder_start PROCINLINE:<{
+    NIL
+    SWAP
+    TPUSH
+    PUSHNULL
+    TPUSH
+  }>
+  __tact_string_builder_start_comment PROCINLINE:<{
+    0 PUSHINT
+    NEWC
+    32 STU
+    __tact_string_builder_start INLINECALLDICT
+  }>
+  __tact_string_builder_end PROCINLINE:<{
+    UNCONS
+    SWAP
+    ENDC
+    WHILE:<{
+      OVER
+      ISNULL
+      NOT
+    }>DO<{
+      SWAP
+      UNCONS
+      -ROT
+      STREF
+      ENDC
+    }>
+    NIP
+  }>
+  __tact_string_builder_append PROCREF:<{
+    DUP
+    SREFS
+    OVER
+    SBITS
+    WHILE:<{
+      DUP
+      0 GTINT
+      s2 PUSH
+      0 GTINT
+      OR
+    }>DO<{
+      s0 s3 XCHG
+      UNCONS
+      127 PUSHINT
+      s2 PUSH
+      BBITS
+      3 RSHIFT#
+      SUB
+      s0 s5 XCHG
+      3 RSHIFT#
+      s5 s5 XCPU
+      MIN
+      DUP
+      0 GTINT
+      IF:<{
+        DUP
+        3 LSHIFT#
+        s1 s5 XCHG
+        LDSLICEX
+        s3 s3 XCHG2
+        STSLICER
+        s0 s1 s4 XCHG3
+      }>
+      -ROT
+      CONS
+      s4 s1 PUSH2
+      SUB
+      0 GTINT
+      IF:<{
+        NEWC
+        SWAP
+        CONS
+        s4 s4 XCHG2
+        SUB
+        3 LSHIFT#
+      }>ELSE<{
+        NIP
+        s3 POP
+        0 GTINT
+        IF:<{
+          LDREF
+          DROP
+          CTOS
+          DUP
+          SREFS
+          OVER
+          SBITS
+        }>ELSE<{
+          0 PUSHINT
+          DUP
+        }>
+      }>
+    }>
+    3 BLKDROP
+  }>
+  __tact_int_to_string PROC:<{
+    NEWC
+    OVER
+    0 LESSINT
+    IF:<{
+      45 PUSHINT
+      SWAP
+      8 STU
+      SWAP
+      NEGATE
+      SWAP
+    }>
+    OVER
+    1000000000000000000000000000000 PUSHINTX
+    LESS
+    IF:<{
+      0 PUSHINT
+      DUP
+      1 PUSHINT
+      UNTIL:<{
+        s0 s4 XCHG
+        10 PUSHINT
+        DIVMOD
+        48 ADDCONST
+        s5 PUSH
+        MUL
+        s1 s2 XCHG
+        ADD
+        s0 s4 XCHG
+        8 LSHIFT#
+        s0 s2 XCHG
+        INC
+        OVER
+        0 EQINT
+        s5 s3 s0 XCHG3
+      }>
+      DROP
+      s3 POP
+      3 LSHIFT#
+      STUX
+    }>ELSE<{
+      NIL
+      0 PUSHINT
+      UNTIL:<{
+        s3 PUSH
+        10 PUSHINT
+        MOD
+        s1 s2 XCHG
+        TPUSH
+        SWAP
+        INC
+        s0 s3 XCHG
+        10 PUSHINT
+        DIV
+        DUP
+        0 EQINT
+        s1 s4 XCHG
+      }>
+      s3 POP
+      s2 PUSH
+      DEC
+      s0 s3 XCHG
+      REPEAT:<{
+        s0 s2 PUSH2
+        INDEXVAR
+        48 ADDCONST
+        ROT
+        8 STU
+        s0 s2 XCHG
+        DEC
+        -ROT
+      }>
+      DROP
+      NIP
+    }>
+    ENDC
+    CTOS
+  }>
+  __tact_float_to_string PROC:<{
+    DUP
+    1 LESSINT
+    OVER
+    77 GTINT
+    OR
+    134 THROWIF
+    NEWC
+    s2 PUSH
+    0 LESSINT
+    IF:<{
+      45 PUSHINT
+      SWAP
+      8 STU
+      s0 s2 XCHG
+      NEGATE
+      s0 s2 XCHG
+    }>
+    TRUE
+    0 PUSHINT
+    NIL
+    s0 s4 XCHG
+    REPEAT:<{
+      s0 s4 XCHG
+      10 PUSHINT
+      DIVMOD
+      DUP
+      0 EQINT
+      s3 s(-1) PUXC
+      AND
+      NOT
+      IF:<{
+        FALSE
+        s3 POP
+        48 ADDCONST
+        s1 s4 XCHG
+        TPUSH
+        s0 s4 XCHG
+        INC
+        s0 s4 XCHG
+        s0 s3 XCHG
+      }>ELSE<{
+        DROP
+      }>
+      s0 s4 XCHG
+    }>
+    SWAP
+    NOT
+    IF:<{
+      s0 s2 XCHG
+      46 PUSHINT
+      TPUSH
+      s0 s2 XCHG
+      INC
+    }>
+    UNTIL:<{
+      s0 s3 XCHG
+      10 PUSHINT
+      DIVMOD
+      48 ADDCONST
+      s1 s3 XCHG
+      TPUSH
+      s0 s3 XCHG
+      INC
+      s2 PUSH
+      0 EQINT
+      s3 s4 XCHG
+    }>
+    s3 POP
+    s2 PUSH
+    DEC
+    s0 s3 XCHG
+    REPEAT:<{
+      s1 s2 PUSH2
+      INDEXVAR
+      SWAP
+      8 STU
+      s0 s2 XCHG
+      DEC
+      s0 s2 XCHG
+    }>
+    2 1 BLKDROP2
+    ENDC
+    CTOS
+  }>
+  __gen_write_Deploy PROCREF:<{
+    2490013878 PUSHINT
+    ROT
+    32 STU
+    64 STU
+  }>
+  __gen_writecell_Deploy PROCREF:<{
+    NEWC
+    SWAP
+    __gen_write_Deploy INLINECALLDICT
+    ENDC
+  }>
+  __gen_read_ProposedMessage PROCREF:<{
+    __tact_load_address INLINECALLDICT
+    SWAP
+    257 PUSHINT
+    LDIX
+    257 PUSHINT
+    LDIX
+    1 LDI
+    LDREF
+    5 -ROLL
+  }>
+  __gen_ProposedMessage_as_optional PROCINLINE:<{
+    5 TUPLE
+  }>
+  __gen_readopt_ProposedMessage PROCREF:<{
+    DUP
+    ISNULL
+    IFJMP:<{
+      DROP
+      PUSHNULL
+    }>
+    CTOS
+    __gen_read_ProposedMessage INLINECALLDICT
+    1 5 BLKDROP2
+    __gen_ProposedMessage_as_optional INLINECALLDICT
+  }>
+  __gen_read_ExecuteProposal PROCREF:<{
+    32 LDU
+    SWAP
+    401062099 PUSHINT
+    EQUAL
+    129 THROWIFNOT
+    LDDICT
+    SWAP
+  }>
+  __gen_read_CreateProposal PROCREF:<{
+    32 LDU
+    SWAP
+    335480027 PUSHINT
+    EQUAL
+    129 THROWIFNOT
+    64 LDU
+    LDDICT
+    -ROT
+  }>
+  __gen_write_WithdrawStake PROCREF:<{
+    3665837821 PUSHINT
+    s0 s4 XCHG2
+    32 STU
+    s1 s2 XCHG
+    64 STU
+    SWAP
+    STGRAMS
+    SWAP
+    STGRAMS
+  }>
+  __gen_writecell_WithdrawStake PROCREF:<{
+    NEWC
+    3 -ROLL
+    __gen_write_WithdrawStake INLINECALLDICT
+    ENDC
+  }>
+  __gen_read_WithdrawStakeResponse PROCREF:<{
+    32 LDU
+    SWAP
+    601104865 PUSHINT
+    EQUAL
+    129 THROWIFNOT
+    64 LDU
+    SWAP
+  }>
+  __gen_read_WithdrawStakeDelayed PROCREF:<{
+    32 LDU
+    SWAP
+    1958425639 PUSHINT
+    EQUAL
+    129 THROWIFNOT
+    64 LDU
+    SWAP
+  }>
+  __gen_write_Proposal PROCREF:<{
+    s6 s5 XCHG2
+    __tact_store_address INLINECALLDICT
+    s1 s3 XCHG
+    STDICT
+    257 PUSHINT
+    STIX
+    257 PUSHINT
+    STIX
+    s0 s2 XCHG
+    NEWC
+    257 PUSHINT
+    STIX
+    STDICT
+    ENDC
+    SWAP
+    STREF
+  }>
+  __gen_write_DAOWithSplitter PROCREF:<{
+    s4 s3 XCHG2
+    __tact_store_address INLINECALLDICT
+    STDICT
+    s1 s2 XCHG
+    257 PUSHINT
+    STIX
+    257 PUSHINT
+    STIX
+  }>
+  __gen_read_DAOWithSplitter PROCREF:<{
+    __tact_load_address INLINECALLDICT
+    SWAP
+    LDDICT
+    257 PUSHINT
+    LDIX
+    257 PUSHINT
+    LDIX
+    4 -ROLL
+  }>
+  __gen_ProposedMessage_not_null PROCINLINE:<{
+    DUP
+    ISNULL
+    128 THROWIF
+    5 UNTUPLE
+  }>
+  __gen_load_DAOWithSplitter PROCREF:<{
+    c4 PUSH
+    CTOS
+    LDREF
+    SWAP
+    __tact_context_sys SETGLOB
+    __gen_read_DAOWithSplitter INLINECALLDICT
+    1 4 BLKDROP2
+  }>
+  __gen_store_DAOWithSplitter PROCREF:<{
+    NEWC
+    __tact_context_sys GETGLOB
+    SWAP
+    STREF
+    4 -ROLL
+    __gen_write_DAOWithSplitter INLINECALLDICT
+    ENDC
+    c4 POP
+  }>
+  $random PROC:<{
+    __tact_prepare_random INLINECALLDICT
+    OVER
+    SUB
+    RAND
+    ADD
+  }>
+  $contractAddress PROC:<{
+    0 PUSHINT
+    -ROT
+    __tact_compute_contract_address INLINECALLDICT
+  }>
+  $send PROC:<{
+    NEWC
+    1 PUSHINT
+    SWAP
+    2 STI
+    s0 s7 XCHG2
+    __tact_store_bool INLINECALLDICT
+    0 PUSHINT
+    SWAP
+    3 STI
+    s0 s5 XCHG2
+    __tact_store_address INLINECALLDICT
+    s0 s3 XCHG2
+    STGRAMS
+    0 PUSHINT
+    SWAP
+    105 STI
+    s3 PUSH
+    ISNULL
+    NOT
+    s5 PUSH
+    ISNULL
+    NOT
+    OR
+    IF:<{
+      TRUE
+      __tact_store_bool INLINECALLDICT
+      NEWC
+      FALSE
+      __tact_store_bool INLINECALLDICT
+      FALSE
+      __tact_store_bool INLINECALLDICT
+      s4 PUSH
+      ISNULL
+      NOT
+      IF:<{
+        TRUE
+        __tact_store_bool INLINECALLDICT
+        s0 s4 XCHG
+        __tact_not_null CALLDICT
+        s0 s4 XCHG2
+        STREF
+      }>ELSE<{
+        s4 POP
+        s0 s3 XCHG
+        FALSE
+        __tact_store_bool INLINECALLDICT
+      }>
+      s4 PUSH
+      ISNULL
+      NOT
+      IF:<{
+        TRUE
+        __tact_store_bool INLINECALLDICT
+        s0 s4 XCHG
+        __tact_not_null CALLDICT
+        s0 s4 XCHG2
+        STREF
+      }>ELSE<{
+        s4 POP
+        s0 s3 XCHG
+        FALSE
+        __tact_store_bool INLINECALLDICT
+      }>
+      FALSE
+      __tact_store_bool INLINECALLDICT
+      s0 s2 XCHG
+      TRUE
+      __tact_store_bool INLINECALLDICT
+      s0 s2 XCHG
+      ENDC
+      ROT
+      STREF
+    }>ELSE<{
+      s3 POP
+      s3 POP
+      SWAP
+      FALSE
+      __tact_store_bool INLINECALLDICT
+    }>
+    OVER
+    ISNULL
+    NOT
+    IF:<{
+      TRUE
+      __tact_store_bool INLINECALLDICT
+      SWAP
+      __tact_not_null CALLDICT
+      SWAP
+      STREF
+    }>ELSE<{
+      NIP
+      FALSE
+      __tact_store_bool INLINECALLDICT
+    }>
+    ENDC
+    SWAP
+    SENDRAWMSG
+  }>
+  $__gen_Builder_asSlice PROC:<{
+    ENDC
+    CTOS
+  }>
+  $serlializeAddress PROC:<{
+    4 PUSHINT
+    NEWC
+    3 STU
+    s1 s2 XCHG
+    8 STI
+    256 STU
+    $__gen_Builder_asSlice CALLDICT
+    __tact_load_address INLINECALLDICT
+    NIP
+  }>
+  $__gen_Int_toCoinsString PROC:<{
+    9 PUSHINT
+    __tact_float_to_string CALLDICT
+  }>
+  $__gen_Proposal_init PROC:<{
+    0 PUSHINT
+    s0 s5 PUXC
+    NEWC
+    STREF
+    s0 s6 XCHG
+    s3 s4 XCHG
+    ROT
+    __gen_write_Proposal INLINECALLDICT
+    ENDC
+  }>
+  $__gen_Proposal_init_child PROC:<{
+    s0 s4 XCHG
+    CTOS
+    LDDICT
+    DROP
+    NEWDICT
+    SWAP
+    12590 PUSHINT
+    __tact_dict_get_code INLINECALLDICT
+    SWAP
+    12590 PUSHINT
+    s2 PUSH
+    __tact_dict_set_code INLINECALLDICT
+    NEWC
+    STDICT
+    ENDC
+    4 -ROLL
+    s0 s5 XCHG
+    $__gen_Proposal_init CALLDICT
+  }>
+  $__gen_DAOWithSplitter_splitAndSend PROC:<{
+    s2 PUSH
+    DIV
+    s2 PUSH
+    MUL
+    DUP
+    1 LESSINT
+    IFJMP:<{
+      DROP
+    }>
+    s3 PUSH
+    257 PUSHINT
+    DICTIMIN
+    NULLSWAPIFNOT2
+    WHILE:<{
+    }>DO<{
+      SWAP
+      __tact_not_null CALLDICT
+      257 PUSHINT
+      LDIX
+      DROP
+      0 PUSHINT
+      s2 PUSH
+      __tact_not_null CALLDICT
+      $serlializeAddress CALLDICT
+      __tact_string_builder_start_comment INLINECALLDICT
+      s2 PUSH
+      __tact_int_to_string CALLDICT
+      __tact_string_builder_append INLINECALLDICT
+      B{b5ee9c724101010100030000022f29d5723f} B>boc <s PUSHSLICE
+      __tact_string_builder_append INLINECALLDICT
+      s6 PUSH
+      __tact_int_to_string CALLDICT
+      __tact_string_builder_append INLINECALLDICT
+      B{b5ee9c72410101010006000008206f6620e3cfe47b} B>boc <s PUSHSLICE
+      __tact_string_builder_append INLINECALLDICT
+      s4 PUSH
+      $__gen_Int_toCoinsString CALLDICT
+      __tact_string_builder_append INLINECALLDICT
+      B{b5ee9c7241010101001900002e20287768616c657320726576656e75652073686172652977905d73} B>boc <s PUSHSLICE
+      __tact_string_builder_append INLINECALLDICT
+      FALSE
+      s5 s7 PUSH2
+      DIV
+      s0 s4 XCHG2
+      MUL
+      0 PUSHINT
+      s0 s2 XCHG
+      __tact_string_builder_end INLINECALLDICT
+      s1 s2 XCHG
+      PUSHNULL
+      PUSHNULL
+      $send CALLDICT
+      __tact_not_null CALLDICT
+      s4 PUSH
+      257 PUSHINT
+      DICTIGETNEXT
+      NULLSWAPIFNOT2
+    }>
+    3 BLKDROP
+  }>
+  $__gen_DAOWithSplitter_memberShare PROC:<{
+    s4 POP
+    2DROP
+    SWAP
+    REWRITESTDADDR
+    NIP
+    257 PUSHINT
+    TUCK
+    __tact_dict_get_int_int INLINECALLDICT
+    17253 PUSHINT
+    OVER
+    ISNULL
+    NOT
+    THROWANYIFNOT
+    __tact_not_null CALLDICT
+  }>
+  $__gen_get_memberShare PROC:<{
+    __gen_load_DAOWithSplitter INLINECALLDICT
+    4 ROLL
+    $__gen_DAOWithSplitter_memberShare CALLDICT
+  }>
+  $__gen_DAOWithSplitter_membersCount PROC:<{
+    s2 s3 XCHG
+    3 BLKDROP
+    0 PUSHINT
+    OVER
+    257 PUSHINT
+    DICTIMIN
+    NULLSWAPIFNOT2
+    s2 POP
+    WHILE:<{
+      SWAP
+    }>DO<{
+      SWAP
+      INC
+      SWAP
+      __tact_not_null CALLDICT
+      s2 PUSH
+      257 PUSHINT
+      DICTIGETNEXT
+      NULLSWAPIFNOT2
+      s2 POP
+    }>
+    DROP
+    NIP
+  }>
+  $__gen_get_membersCount PROC:<{
+    __gen_load_DAOWithSplitter INLINECALLDICT
+    $__gen_DAOWithSplitter_membersCount CALLDICT
+  }>
+  $__gen_DAOWithSplitter_minimumVotes PROC:<{
+    $__gen_DAOWithSplitter_membersCount CALLDICT
+    3 PUSHINT
+    1 LSHIFT#DIVC
+    2 PUSHINT
+    MAX
+  }>
+  $__gen_get_minimumVotes PROC:<{
+    __gen_load_DAOWithSplitter INLINECALLDICT
+    $__gen_DAOWithSplitter_minimumVotes CALLDICT
+  }>
+  $__gen_DAOWithSplitter_receive_ExecuteProposal PROC:<{
+    __tact_context_get INLINECALLDICT
+    s2 s3 XCHG
+    3 BLKDROP
+    __tact_context_sys GETGLOB
+    MYADDR
+    s7 s6 s5 PUSH3
+    s7 PUSH
+    $__gen_DAOWithSplitter_minimumVotes CALLDICT
+    s7 s4 PUSH2
+    $__gen_Proposal_init_child CALLDICT
+    SWAP
+    33345 PUSHINT
+    s0 s2 XCHG
+    $contractAddress CALLDICT
+    s1 s2 XCHG
+    __tact_address_eq INLINECALLDICT
+    THROWANYIFNOT
+    0 PUSHINT
+    257 PUSHINT
+    s2 s1 s(-1) PU2XC
+    __tact_dict_get_int_cell CALLDICT
+    __gen_readopt_ProposedMessage INLINECALLDICT
+    WHILE:<{
+      DUP
+      ISNULL
+      NOT
+    }>DO<{
+      __gen_ProposedMessage_not_null INLINECALLDICT
+      s1 s4 XCHG
+      s3 s3 s0 XCHG3
+      PUSHNULL
+      PUSHNULL
+      $send CALLDICT
+      INC
+      OVER
+      257 PUSHINT
+      s2 PUSH
+      __tact_dict_get_int_cell CALLDICT
+      __gen_readopt_ProposedMessage INLINECALLDICT
+    }>
+    3 BLKDROP
+  }>
+  $__gen_DAOWithSplitter_receive_CreateProposal PROC:<{
+    __tact_context_get INLINECALLDICT
+    DROP
+    s2 POP
+    REWRITESTDADDR
+    NIP
+    257 PUSHINT
+    s0 s7 PUSH2
+    s3 s3 XCHG2
+    __tact_dict_get_int_int INLINECALLDICT
+    17253 PUSHINT
+    SWAP
+    ISNULL
+    NOT
+    THROWANYIFNOT
+    49769 PUSHINT
+    SWAP
+    100000000 PUSHINT
+    GREATER
+    THROWANYIFNOT
+    __tact_context_sys GETGLOB
+    MYADDR
+    s7 s6 s5 PUSH3
+    s7 PUSH
+    $__gen_DAOWithSplitter_minimumVotes CALLDICT
+    3 ROLL
+    s7 s(-1) PUXC
+    $__gen_Proposal_init_child CALLDICT
+    2DUP
+    $contractAddress CALLDICT
+    FALSE
+    0 PUSHINT
+    64 PUSHINT
+    s0 s6 XCHG
+    __gen_writecell_Deploy INLINECALLDICT
+    5 2 REVERSE
+    s0 s3 s3 XCHG3
+    s0 s4 XCHG
+    $send CALLDICT
+  }>
+  $__gen_DAOWithSplitter_receive_comment_088498875f54c5f944f42d323f454dea2c39c21a7288b107cfbf31c5746228df PROC:<{
+  }>
+  $__gen_DAOWithSplitter_receive_comment_c1c11d1f7fd92f290d981a0199b5192a8987f40e1ee7bf341a386bae13dbc5e5 PROC:<{
+  }>
+  $__gen_DAOWithSplitter_receive_comment_250b76e2b9576fc6b4c45129483006b0003a0c39b6f7ae413d177f4e3479dbca PROC:<{
+    __tact_context_get INLINECALLDICT
+    s2 s3 XCHG
+    3 BLKDROP
+    REWRITESTDADDR
+    NIP
+    257 PUSHINT
+    s0 s4 PUSH2
+    s3 s3 XCHG2
+    __tact_dict_get_int_int INLINECALLDICT
+    17253 PUSHINT
+    SWAP
+    ISNULL
+    NOT
+    THROWANYIFNOT
+    14720 PUSHINT
+    __tact_my_balance INLINECALLDICT
+    s2 PUSH
+    SUB
+    100000000 PUSHINT
+    GREATER
+    THROWANYIFNOT
+    FALSE
+    1 PUSHINT
+    DUP
+    18446744073709552000 PUSHINT
+    $random CALLDICT
+    1000000000 PUSHINT
+    0 PUSHINT
+    __gen_writecell_WithdrawStake INLINECALLDICT
+    PUSHNULL
+    PUSHNULL
+    s8 PUSH
+    s4 s6 XCPU
+    s4 s3 s4 XCHG3
+    $send CALLDICT
+  }>
+  $__gen_DAOWithSplitter_receive_comment_05a0b75ac6180d673399ec546c374c22ad7b54bfcf16d736fc78e9e173d87372 PROC:<{
+    __tact_context_get INLINECALLDICT
+    s1 s3 XCHG
+    3 BLKDROP
+    100000000 PUSHINT
+    SUB
+    DUP
+    1 LESSINT
+    IFJMP:<{
+      DROP
+    }>
+    $__gen_DAOWithSplitter_splitAndSend CALLDICT
+  }>
+  $__gen_DAOWithSplitter_receive_WithdrawStakeResponse PROC:<{
+    DROP
+    __tact_context_get INLINECALLDICT
+    s1 s3 XCHG
+    3 BLKDROP
+    100000000 PUSHINT
+    SUB
+    DUP
+    1 LESSINT
+    IFJMP:<{
+      DROP
+    }>
+    $__gen_DAOWithSplitter_splitAndSend CALLDICT
+  }>
+  $__gen_DAOWithSplitter_receive_WithdrawStakeDelayed PROC:<{
+    DROP
+  }>
+  recv_internal PROC:<{
+    c2 SAVE
+    SAMEALTSAVE
+    0 PUSHINT
+    OVER
+    SBITS
+    31 GTINT
+    IF:<{
+      DROP
+      DUP
+      32 PLDU
+    }>
+    s0 s2 XCHG
+    CTOS
+    4 LDU
+    SWAP
+    1 PUSHINT
+    AND
+    1 EQINT
+    IF:<{
+      TRUE
+    }>ELSE<{
+      FALSE
+    }>
+    SWAP
+    LDMSGADDR
+    s2 PUSH
+    s6 s6 XCHG2
+    4 TUPLE
+    __tact_context SETGLOB
+    s0 s2 XCHG
+    IFJMP:<{
+      2DROP
+    }>
+    DUP
+    401062099 PUSHINT
+    EQUAL
+    IFJMP:<{
+      DROP
+      __gen_load_DAOWithSplitter INLINECALLDICT
+      s0 s4 XCHG
+      __gen_read_ExecuteProposal INLINECALLDICT
+      NIP
+      s3 s4 XCHG
+      s1 s3 s0 XCHG3
+      $__gen_DAOWithSplitter_receive_ExecuteProposal CALLDICT
+      __gen_store_DAOWithSplitter INLINECALLDICT
+    }>
+    DUP
+    335480027 PUSHINT
+    EQUAL
+    IFJMP:<{
+      DROP
+      __gen_load_DAOWithSplitter INLINECALLDICT
+      s0 s4 XCHG
+      __gen_read_CreateProposal INLINECALLDICT
+      s2 POP
+      s4 s5 XCHG
+      s3 s4 XCHG
+      s3 s0 s0 XCHG3
+      $__gen_DAOWithSplitter_receive_CreateProposal CALLDICT
+      __gen_store_DAOWithSplitter INLINECALLDICT
+    }>
+    DUP
+    601104865 PUSHINT
+    EQUAL
+    IFJMP:<{
+      DROP
+      __gen_load_DAOWithSplitter INLINECALLDICT
+      s0 s4 XCHG
+      __gen_read_WithdrawStakeResponse INLINECALLDICT
+      NIP
+      s3 s4 XCHG
+      s1 s3 s0 XCHG3
+      $__gen_DAOWithSplitter_receive_WithdrawStakeResponse CALLDICT
+      __gen_store_DAOWithSplitter INLINECALLDICT
+    }>
+    DUP
+    1958425639 PUSHINT
+    EQUAL
+    IFJMP:<{
+      DROP
+      __gen_load_DAOWithSplitter INLINECALLDICT
+      s0 s4 XCHG
+      __gen_read_WithdrawStakeDelayed INLINECALLDICT
+      NIP
+      s3 s4 XCHG
+      s1 s3 s0 XCHG3
+      $__gen_DAOWithSplitter_receive_WithdrawStakeDelayed CALLDICT
+      __gen_store_DAOWithSplitter INLINECALLDICT
+    }>
+    0 EQINT
+    IF:<{
+      HASHSU
+      DUP
+      3852779316293931505224122725508371923291068435425876332111033614958097213663 PUSHINT
+      EQUAL
+      IFJMP:<{
+        DROP
+        __gen_load_DAOWithSplitter INLINECALLDICT
+        $__gen_DAOWithSplitter_receive_comment_088498875f54c5f944f42d323f454dea2c39c21a7288b107cfbf31c5746228df CALLDICT
+        __gen_store_DAOWithSplitter INLINECALLDICT
+        RETALT
+      }>
+      DUP
+      87637582259939050187604825548998578171983754589933010328795121713347083093477 PUSHINT
+      EQUAL
+      IFJMP:<{
+        DROP
+        __gen_load_DAOWithSplitter INLINECALLDICT
+        $__gen_DAOWithSplitter_receive_comment_c1c11d1f7fd92f290d981a0199b5192a8987f40e1ee7bf341a386bae13dbc5e5 CALLDICT
+        __gen_store_DAOWithSplitter INLINECALLDICT
+        RETALT
+      }>
+      DUP
+      16755831233829029960236183814598340968099579476287469518633057839499026488266 PUSHINT
+      EQUAL
+      IFJMP:<{
+        DROP
+        __gen_load_DAOWithSplitter INLINECALLDICT
+        $__gen_DAOWithSplitter_receive_comment_250b76e2b9576fc6b4c45129483006b0003a0c39b6f7ae413d177f4e3479dbca CALLDICT
+        __gen_store_DAOWithSplitter INLINECALLDICT
+        RETALT
+      }>
+      2545525240119264467050194066989315274095572866678635812272129799478685758322 PUSHINT
+      EQUAL
+      IFJMP:<{
+        __gen_load_DAOWithSplitter INLINECALLDICT
+        $__gen_DAOWithSplitter_receive_comment_05a0b75ac6180d673399ec546c374c22ad7b54bfcf16d736fc78e9e173d87372 CALLDICT
+        __gen_store_DAOWithSplitter INLINECALLDICT
+        RETALT
+      }>
+    }>ELSE<{
+      DROP
+    }>
+    130 THROW
+  }>
+  supported_interfaces PROC:<{
+    123515602279859691144772641439386770278 PUSHINT
+    209801025412363888721030803524359905849 PUSHINT
+  }>
+  get_abi_ipfs PROC:<{
+    x{697066733a2f2f516d547758626369695561784e4161455931386e6848745369694d61594d523842686257617834716b7766376f34} PUSHSLICE
+  }>
+}END>c

@@ -1,0 +1,47 @@
+() __tact_verify_address(slice address) inline {
+    throw_unless(136, address.slice_bits() != 267);
+}
+
+builder __tact_store_address(builder b, slice address) inline {
+    __tact_verify_address(address);
+    b = b.store_slice(address);
+    return b;
+}
+
+builder __gen_write_Proposal(builder build_0, (slice, cell, int, int, int, cell) v) inline_ref {
+    var (v'owner, v'members, v'votesNeeded, v'agreed, v'disagreed, v'proposal) = v;
+    build_0 = __tact_store_address(build_0, v'owner);
+    build_0 = build_0.store_dict(v'members);
+    build_0 = build_0.store_int(v'votesNeeded, 257);
+    build_0 = build_0.store_int(v'agreed, 257);
+    var build_1 = begin_cell();
+    build_1 = build_1.store_int(v'disagreed, 257);
+    build_1 = build_1.store_dict(v'proposal);
+    build_0 = store_ref(build_0, build_1.end_cell());
+    return build_0;
+}
+
+cell $__gen_Proposal_init(cell sys', slice $owner, int $votesNeeded, cell $members, cell $proposal) {
+    var (($self'owner, $self'members, $self'votesNeeded, $self'agreed, $self'disagreed, $self'proposal)) = (null(), null(), null(), null(), null(), null());
+    $self'owner = $owner;
+    $self'members = $members;
+    $self'proposal = $proposal;
+    $self'votesNeeded = $votesNeeded;
+    $self'agreed = 0;
+    $self'disagreed = 0;
+    var b' = begin_cell();
+    b' = b'.store_ref(sys');
+    b' = __gen_write_Proposal(b', ($self'owner, $self'members, $self'votesNeeded, $self'agreed, $self'disagreed, $self'proposal));
+    return b'.end_cell();
+}
+
+cell init(cell sys', slice $$owner, int $$votesNeeded, cell $$members, cell $$proposal) method_id {
+    slice $owner = $$owner;
+    int $votesNeeded = $$votesNeeded;
+    cell $members = $$members;
+    cell $proposal = $$proposal;
+    return $__gen_Proposal_init(sys', $owner, $votesNeeded, $members, $proposal);
+}
+
+() main() {
+}

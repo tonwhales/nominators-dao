@@ -1,9 +1,6 @@
 import base64url from 'base64url';
 import qs from 'qs';
-import { Address, beginCell, toNano } from "ton";
-import { storeWithdrawStakeResponse } from "./output/dao_DAOWithSplitter";
-import { deploy } from "./utils/deploy";
-import { printAddress, printDeploy, printHeader } from "./utils/print";
+import { Address, toNano } from "ton";
 
 const daoAddress = Address.parse('kQDv9YslGc0fCwWD-1h5A6Bjb3CColAmYgdZqgQYydvn--1B');
 const testnet = true;

@@ -1,0 +1,718 @@
+int __tact_my_balance() inline {
+    return pair_first(get_balance());
+}
+
+forall X -> X __tact_not_null(X x) { throw_if(128, null?(x)); return x; }
+
+global (int, slice, int, slice) __tact_context;
+global cell __tact_context_sys;
+
+(int, slice, int, slice) __tact_context_get() inline { return __tact_context; }
+
+() __tact_verify_address(slice address) inline {
+    throw_unless(136, address.slice_bits() != 267);
+}
+
+global int __tact_randomized;
+() __tact_prepare_random() impure inline {
+    if (null?(__tact_randomized)) {
+        randomize_lt();
+        __tact_randomized = true;
+    }
+}
+
+builder __tact_store_bool(builder b, int v) inline {
+    b = b.store_int(v, 1);
+    return b;
+}
+
+(slice, slice) __tact_load_address(slice cs) inline {
+    slice raw = cs~load_msg_addr();
+    __tact_verify_address(raw);
+    return (cs, raw);
+}
+
+builder __tact_store_address(builder b, slice address) inline {
+    __tact_verify_address(address);
+    b = b.store_slice(address);
+    return b;
+}
+
+slice __tact_create_address(int chain, int hash) inline {
+    var b = begin_cell();
+    b = b.store_uint(2, 2);
+    b = b.store_uint(0, 1);
+    b = b.store_int(chain, 8);
+    b = b.store_uint(hash, 256);
+    return b.end_cell().begin_parse();
+}
+
+slice __tact_compute_contract_address(int chain, cell code, cell data) inline {
+    var b = begin_cell();
+    b = b.store_uint(0, 2);
+    b = b.store_uint(3, 2);
+    b = b.store_uint(0, 1);
+    b = b.store_ref(code);
+    b = b.store_ref(data);
+    var hash = cell_hash(b.end_cell());
+    return __tact_create_address(chain, hash);
+}
+
+int __tact_dict_get_int_int(cell d, int kl, int k, int vl) inline {
+    var (r, ok) = idict_get?(d, kl, k);
+    if (ok) {
+        return r~load_int(vl);
+    } else {
+        return null();
+    }
+}
+
+cell __tact_dict_get_int_cell(cell d, int kl, int k) {
+    var (r, ok) = idict_get_ref?(d, kl, k);
+    if (ok) {
+        return r;
+    } else {
+        return null();
+    }
+}
+
+int __tact_address_eq(slice a, slice b) inline {
+    return equal_slice_bits(a, b);
+}
+
+cell __tact_dict_set_code(cell dict, int id, cell code) inline {
+    return udict_set_ref(dict, 16, id, code);
+}
+
+cell __tact_dict_get_code(cell dict, int id) inline {
+    var (data, ok) = udict_get_ref?(dict, 16, id);
+    throw_unless(135, ok);
+    return data;
+}
+
+forall X0, X1, X2, X3, X4 -> tuple __tact_tuple_create_5((X0, X1, X2, X3, X4) v) asm "5 TUPLE";
+
+forall X0, X1, X2, X3, X4 -> (X0, X1, X2, X3, X4) __tact_tuple_destroy_5(tuple v) asm "5 UNTUPLE";
+
+tuple __tact_string_builder_start(builder b) inline {
+    return tpush(tpush(empty_tuple(), b), null());
+}
+
+tuple __tact_string_builder_start_comment() inline {
+    return __tact_string_builder_start(begin_cell().store_uint(0, 32));
+}
+
+cell __tact_string_builder_end(tuple builders) inline {
+    (builder b, tuple tail) = uncons(builders);
+    cell c = b.end_cell();
+    while(~ null?(tail)) {
+        (b, tail) = uncons(tail);
+        c = b.store_ref(c).end_cell();
+    }
+    return c;
+}
+
+((tuple), ()) __tact_string_builder_append(tuple builders, slice sc) inline_ref {
+    int sliceRefs = slice_refs(sc);
+    int sliceBits = slice_bits(sc);
+
+    while((sliceBits > 0) | (sliceRefs > 0)) {
+
+        ;; Load the current builder
+        (builder b, tuple tail) = uncons(builders);
+        int remBytes = 127 - (builder_bits(b) / 8);
+        int exBytes = sliceBits / 8;
+
+        ;; Append bits
+        int amount = min(remBytes, exBytes);
+        if (amount > 0) {
+            slice read = sc~load_bits(amount * 8);
+            b = b.store_slice(read);
+        }
+
+        ;; Update builders
+        builders = cons(b, tail);
+
+        ;; Check if we need to add a new cell and continue
+        if (exBytes - amount > 0) {
+            var bb = begin_cell();
+            builders = cons(bb, builders);
+            sliceBits = (exBytes - amount) * 8;
+        } elseif (sliceRefs > 0) {
+            sc = sc~load_ref().begin_parse();
+            sliceRefs = slice_refs(sc);
+            sliceBits = slice_bits(sc);
+        } else {
+            sliceBits = 0;
+            sliceRefs = 0;
+        }
+    }
+
+    return ((builders), ());
+}
+
+slice __tact_int_to_string(int src) {
+    var b = begin_cell();
+    if (src < 0) {
+        b = b.store_uint(45, 8);
+        src = - src;
+    }
+
+    if (src < 1000000000000000000000000000000) {
+        int len = 0;
+        int value = 0;
+        int mult = 1;
+        do {
+            (src, int res) = src.divmod(10);
+            value = value + (res + 48) * mult;
+            mult = mult * 256;
+            len = len + 1;
+        } until (src == 0);
+
+        b = b.store_uint(value, len * 8);
+    } else {
+        tuple t = empty_tuple();
+        int len = 0;
+        do {
+            int digit = src % 10;
+            t~tpush(digit);
+            len = len + 1;
+            src = src / 10;
+        } until (src == 0);
+
+        int c = len - 1;
+        repeat(len) {
+            int v = t.at(c);
+            b = b.store_uint(v + 48, 8);
+            c = c - 1;
+        }
+    }
+    return b.end_cell().begin_parse();
+}
+
+slice __tact_float_to_string(int src, int digits) {
+    throw_if(134, (digits <= 0) | (digits > 77));
+    builder b = begin_cell();
+
+    if (src < 0) {
+        b = b.store_uint(45, 8);
+        src = - src;
+    }
+
+    ;; Process rem part
+    int skip = true;
+    int len = 0;
+    int rem = 0;
+    tuple t = empty_tuple();
+    repeat(digits) {
+        (src, rem) = src.divmod(10);
+        if ( ~ ( skip & ( rem == 0 ) ) ) {
+            skip = false;
+            t~tpush(rem + 48);
+            len = len + 1;
+        }
+    }
+
+    ;; Process dot
+    if (~ skip) {
+        t~tpush(46);
+        len = len + 1;
+    }
+
+    ;; Main
+    do {
+        (src, rem) = src.divmod(10);
+        t~tpush(rem + 48);
+        len = len + 1;
+    } until (src == 0);
+
+    ;; Assemble
+    int c = len - 1;
+    repeat(len) {
+        int v = t.at(c);
+        b = b.store_uint(v, 8);
+        c = c - 1;
+    }
+
+    ;; Result
+    return b.end_cell().begin_parse();
+}
+
+builder __gen_write_Deploy(builder build_0, (int) v) inline_ref {
+    var (v'queryId) = v;
+    build_0 = store_uint(build_0, 2490013878, 32);
+    build_0 = build_0.store_uint(v'queryId, 64);
+    return build_0;
+}
+
+cell __gen_writecell_Deploy((int) v) inline_ref {
+    return __gen_write_Deploy(begin_cell(), v).end_cell();
+}
+
+(slice, ((slice, int, int, int, cell))) __gen_read_ProposedMessage(slice sc_0) inline_ref {
+    var v'to = sc_0~__tact_load_address();
+    var v'value = sc_0~load_int(257);
+    var v'mode = sc_0~load_int(257);
+    var v'bounce = sc_0~load_int(1);
+    var v'body = sc_0~load_ref();
+    return (sc_0, (v'to, v'value, v'mode, v'bounce, v'body));
+}
+
+tuple __gen_ProposedMessage_as_optional(((slice, int, int, int, cell)) v) inline {
+    var (v'to, v'value, v'mode, v'bounce, v'body) = v;
+    return __tact_tuple_create_5(v'to, v'value, v'mode, v'bounce, v'body);
+}
+
+tuple __gen_readopt_ProposedMessage(cell cl) inline_ref {
+    if (null?(cl)) {
+        return null();
+    }
+    var sc = cl.begin_parse();
+    return __gen_ProposedMessage_as_optional(sc~__gen_read_ProposedMessage());
+}
+
+(slice, ((cell))) __gen_read_ExecuteProposal(slice sc_0) inline_ref {
+    throw_unless(129, sc_0~load_uint(32) == 401062099);
+    var v'messages = sc_0~load_dict();
+    return (sc_0, (v'messages));
+}
+
+(slice, ((int, cell))) __gen_read_CreateProposal(slice sc_0) inline_ref {
+    throw_unless(129, sc_0~load_uint(32) == 335480027);
+    var v'queryId = sc_0~load_uint(64);
+    var v'messages = sc_0~load_dict();
+    return (sc_0, (v'queryId, v'messages));
+}
+
+builder __gen_write_WithdrawStake(builder build_0, (int, int, int) v) inline_ref {
+    var (v'queryId, v'gasLimit, v'stake) = v;
+    build_0 = store_uint(build_0, 3665837821, 32);
+    build_0 = build_0.store_uint(v'queryId, 64);
+    build_0 = build_0.store_coins(v'gasLimit);
+    build_0 = build_0.store_coins(v'stake);
+    return build_0;
+}
+
+cell __gen_writecell_WithdrawStake((int, int, int) v) inline_ref {
+    return __gen_write_WithdrawStake(begin_cell(), v).end_cell();
+}
+
+(slice, ((int))) __gen_read_WithdrawStakeResponse(slice sc_0) inline_ref {
+    throw_unless(129, sc_0~load_uint(32) == 601104865);
+    var v'queryId = sc_0~load_uint(64);
+    return (sc_0, (v'queryId));
+}
+
+(slice, ((int))) __gen_read_WithdrawStakeDelayed(slice sc_0) inline_ref {
+    throw_unless(129, sc_0~load_uint(32) == 1958425639);
+    var v'queryId = sc_0~load_uint(64);
+    return (sc_0, (v'queryId));
+}
+
+builder __gen_write_Proposal(builder build_0, (slice, cell, int, int, int, cell) v) inline_ref {
+    var (v'owner, v'members, v'votesNeeded, v'agreed, v'disagreed, v'proposal) = v;
+    build_0 = __tact_store_address(build_0, v'owner);
+    build_0 = build_0.store_dict(v'members);
+    build_0 = build_0.store_int(v'votesNeeded, 257);
+    build_0 = build_0.store_int(v'agreed, 257);
+    var build_1 = begin_cell();
+    build_1 = build_1.store_int(v'disagreed, 257);
+    build_1 = build_1.store_dict(v'proposal);
+    build_0 = store_ref(build_0, build_1.end_cell());
+    return build_0;
+}
+
+builder __gen_write_DAOWithSplitter(builder build_0, (slice, cell, int, int) v) inline_ref {
+    var (v'managable, v'members, v'denominator, v'withdrawFee) = v;
+    build_0 = __tact_store_address(build_0, v'managable);
+    build_0 = build_0.store_dict(v'members);
+    build_0 = build_0.store_int(v'denominator, 257);
+    build_0 = build_0.store_int(v'withdrawFee, 257);
+    return build_0;
+}
+
+(slice, ((slice, cell, int, int))) __gen_read_DAOWithSplitter(slice sc_0) inline_ref {
+    var v'managable = sc_0~__tact_load_address();
+    var v'members = sc_0~load_dict();
+    var v'denominator = sc_0~load_int(257);
+    var v'withdrawFee = sc_0~load_int(257);
+    return (sc_0, (v'managable, v'members, v'denominator, v'withdrawFee));
+}
+
+((slice, int, int, int, cell)) __gen_ProposedMessage_not_null(tuple v) inline {
+    throw_if(128, null?(v));
+    var (slice vvv'to, int vvv'value, int vvv'mode, int vvv'bounce, cell vvv'body) = __tact_tuple_destroy_5(v);
+    return (vvv'to, vvv'value, vvv'mode, vvv'bounce, vvv'body);
+}
+
+(slice, cell, int, int) __gen_load_DAOWithSplitter() inline_ref {
+    slice sc = get_data().begin_parse();
+    __tact_context_sys = sc~load_ref();
+    return sc~__gen_read_DAOWithSplitter();
+}
+
+() __gen_store_DAOWithSplitter((slice, cell, int, int) v) impure inline_ref {
+    builder b = begin_cell();
+    b = b.store_ref(__tact_context_sys);
+    b = __gen_write_DAOWithSplitter(b, v);
+    set_data(b.end_cell());
+}
+
+;; String "/"
+slice __gen_str_2321472178() asm "B{b5ee9c724101010100030000022f29d5723f} B>boc <s PUSHSLICE";
+
+;; String " of "
+slice __gen_str_2754096715() asm "B{b5ee9c72410101010006000008206f6620e3cfe47b} B>boc <s PUSHSLICE";
+
+;; String " (whales revenue share)"
+slice __gen_str_15613042() asm "B{b5ee9c7241010101001900002e20287768616c657320726576656e75652073686172652977905d73} B>boc <s PUSHSLICE";
+
+int $random(int $min, int $max) impure {
+    __tact_prepare_random();
+    return ($min + rand(($max - $min)));
+}
+
+slice $contractAddress((cell, cell) $s) impure {
+    var (($s'code, $s'data)) = $s;
+    return __tact_compute_contract_address(0, $s'code, $s'data);
+}
+
+() $send((int, slice, int, int, cell, cell, cell) $params) impure {
+    var (($params'bounce, $params'to, $params'value, $params'mode, $params'body, $params'code, $params'data)) = $params;
+    builder $b = begin_cell();
+    $b = store_int($b, 1, 2);
+    $b = __tact_store_bool($b, $params'bounce);
+    $b = store_int($b, 0, 3);
+    $b = __tact_store_address($b, $params'to);
+    $b = store_coins($b, $params'value);
+    $b = store_int($b, 0, ((((1 + 4) + 4) + 64) + 32));
+    if (((~ null?($params'code)) | (~ null?($params'data)))) {
+        $b = __tact_store_bool($b, true);
+        builder $bc = begin_cell();
+        $bc = __tact_store_bool($bc, false);
+        $bc = __tact_store_bool($bc, false);
+        if ((~ null?($params'code))) {
+            $bc = __tact_store_bool($bc, true);
+            $bc = store_ref($bc, __tact_not_null($params'code));
+        } else {
+            $bc = __tact_store_bool($bc, false);
+        }
+        if ((~ null?($params'data))) {
+            $bc = __tact_store_bool($bc, true);
+            $bc = store_ref($bc, __tact_not_null($params'data));
+        } else {
+            $bc = __tact_store_bool($bc, false);
+        }
+        $bc = __tact_store_bool($bc, false);
+        $b = __tact_store_bool($b, true);
+        $b = store_ref($b, end_cell($bc));
+    } else {
+        $b = __tact_store_bool($b, false);
+    }
+    cell $body = $params'body;
+    if ((~ null?($body))) {
+        $b = __tact_store_bool($b, true);
+        $b = store_ref($b, __tact_not_null($body));
+    } else {
+        $b = __tact_store_bool($b, false);
+    }
+    cell $c = end_cell($b);
+    send_raw_message($c, $params'mode);
+}
+
+slice $__gen_Builder_asSlice(builder $self) impure {
+    var ($self) = $self;
+    return begin_parse(end_cell($self));
+}
+
+slice $serlializeAddress(int $wc, int $hash) impure {
+    slice $addr = $__gen_Builder_asSlice(store_uint(store_int(store_uint(begin_cell(), 4, 3), $wc, 8), $hash, 256));
+    return $addr~__tact_load_address();
+}
+
+slice $__gen_Int_toCoinsString(int $self) impure {
+    var ($self) = $self;
+    return __tact_float_to_string($self, 9);
+}
+
+cell $__gen_Proposal_init(cell sys', slice $owner, int $votesNeeded, cell $members, cell $proposal) {
+    var (($self'owner, $self'members, $self'votesNeeded, $self'agreed, $self'disagreed, $self'proposal)) = (null(), null(), null(), null(), null(), null());
+    $self'owner = $owner;
+    $self'members = $members;
+    $self'proposal = $proposal;
+    $self'votesNeeded = $votesNeeded;
+    $self'agreed = 0;
+    $self'disagreed = 0;
+    var b' = begin_cell();
+    b' = b'.store_ref(sys');
+    b' = __gen_write_Proposal(b', ($self'owner, $self'members, $self'votesNeeded, $self'agreed, $self'disagreed, $self'proposal));
+    return b'.end_cell();
+}
+
+(cell, cell) $__gen_Proposal_init_child(cell sys', slice $owner, int $votesNeeded, cell $members, cell $proposal) {
+    slice sc' = sys'.begin_parse();
+    cell source = sc'~load_dict();
+    cell contracts = new_dict();
+    
+    ;; Contract Code: Proposal
+    cell mine = __tact_dict_get_code(source, 12590);
+    contracts = __tact_dict_set_code(contracts, 12590, mine);
+    cell sys = begin_cell().store_dict(contracts).end_cell();
+    return (mine, $__gen_Proposal_init(sys, $owner, $votesNeeded, $members, $proposal));
+}
+
+((slice, cell, int, int), ()) $__gen_DAOWithSplitter_splitAndSend((slice, cell, int, int) $self, int $value) impure {
+    var (($self'managable, $self'members, $self'denominator, $self'withdrawFee)) = $self;
+    int $splittable = (($value / $self'denominator) * $self'denominator);
+    if (($splittable <= 0)) {
+        return (($self'managable, $self'members, $self'denominator, $self'withdrawFee), ());
+    }
+    var ($lookup'key, $lookup'value, $lookup'found) = idict_get_min?($self'members, 257);
+    while ($lookup'found) {
+        slice $memberSlice = __tact_not_null($lookup'value);
+        int $memberShare = $memberSlice~load_int(257);
+        slice $memberAddress = $serlializeAddress(0, __tact_not_null($lookup'key));
+        tuple $body = __tact_string_builder_start_comment();
+        $body~__tact_string_builder_append(__tact_int_to_string($memberShare));
+        $body~__tact_string_builder_append(__gen_str_2321472178());
+        $body~__tact_string_builder_append(__tact_int_to_string($self'denominator));
+        $body~__tact_string_builder_append(__gen_str_2754096715());
+        $body~__tact_string_builder_append($__gen_Int_toCoinsString($splittable));
+        $body~__tact_string_builder_append(__gen_str_15613042());
+        $send((false, $memberAddress, (($splittable / $self'denominator) * $memberShare), 0, __tact_string_builder_end($body), null(), null()));
+        ($lookup'key, $lookup'value, $lookup'found) = idict_get_next?($self'members, 257, __tact_not_null($lookup'key));
+    }
+    return (($self'managable, $self'members, $self'denominator, $self'withdrawFee), ());
+}
+
+int $__gen_DAOWithSplitter_memberShare((slice, cell, int, int) $self, slice $addr) impure {
+    var (($self'managable, $self'members, $self'denominator, $self'withdrawFee)) = $self;
+    var ($parsedAddr'wc, $parsedAddr'hash) = parse_std_addr($addr);
+    int $maybeMember = __tact_dict_get_int_int($self'members, 257, $parsedAddr'hash, 257);
+    throw_unless(17253, (~ null?($maybeMember)));
+    return __tact_not_null($maybeMember);
+}
+
+_ $__gen_get_memberShare(slice $$addr) method_id(79283) {
+    slice $addr = $$addr;
+    var self = __gen_load_DAOWithSplitter();
+    var res = $__gen_DAOWithSplitter_memberShare(self, $addr);
+    return res;
+}
+
+int $__gen_DAOWithSplitter_membersCount((slice, cell, int, int) $self) impure {
+    var (($self'managable, $self'members, $self'denominator, $self'withdrawFee)) = $self;
+    int $count = 0;
+    var ($lookup'key, $lookup'value, $lookup'found) = idict_get_min?($self'members, 257);
+    while ($lookup'found) {
+        slice $memberSlice = __tact_not_null($lookup'value);
+        int $memberShare = $memberSlice~load_int(257);
+        $count = ($count + 1);
+        ($lookup'key, $lookup'value, $lookup'found) = idict_get_next?($self'members, 257, __tact_not_null($lookup'key));
+    }
+    return $count;
+}
+
+_ $__gen_get_membersCount() method_id(115094) {
+    var self = __gen_load_DAOWithSplitter();
+    var res = $__gen_DAOWithSplitter_membersCount(self);
+    return res;
+}
+
+int $__gen_DAOWithSplitter_minimumVotes((slice, cell, int, int) $self) impure {
+    var (($self'managable, $self'members, $self'denominator, $self'withdrawFee)) = $self;
+    return max(muldivc($__gen_DAOWithSplitter_membersCount(($self'managable, $self'members, $self'denominator, $self'withdrawFee)), 2, 3), 2);
+}
+
+_ $__gen_get_minimumVotes() method_id(108210) {
+    var self = __gen_load_DAOWithSplitter();
+    var res = $__gen_DAOWithSplitter_minimumVotes(self);
+    return res;
+}
+
+(((slice, cell, int, int)), ()) $__gen_DAOWithSplitter_receive_ExecuteProposal((slice, cell, int, int) $self, (cell) $proposal) impure {
+    var ($self'managable, $self'members, $self'denominator, $self'withdrawFee) = $self;
+    var ($proposal'messages) = $proposal;
+    var ($ctx'bounced, $ctx'sender, $ctx'value, $ctx'raw) = __tact_context_get();
+    var ($proposalExpected'code, $proposalExpected'data) = $__gen_Proposal_init_child(__tact_context_sys, my_address(), $__gen_DAOWithSplitter_minimumVotes(($self'managable, $self'members, $self'denominator, $self'withdrawFee)), $self'members, $proposal'messages);
+    throw_unless(33345, __tact_address_eq($ctx'sender, $contractAddress(($proposalExpected'code, $proposalExpected'data))));
+    int $i = 0;
+    tuple $found = __gen_readopt_ProposedMessage(__tact_dict_get_int_cell($proposal'messages, 257, 0));
+    while ((~ null?($found))) {
+        var ($proposedMessage'to, $proposedMessage'value, $proposedMessage'mode, $proposedMessage'bounce, $proposedMessage'body) = __gen_ProposedMessage_not_null($found);
+        $send(($proposedMessage'bounce, $proposedMessage'to, $proposedMessage'value, $proposedMessage'mode, $proposedMessage'body, null(), null()));
+        $i = ($i + 1);
+        $found = __gen_readopt_ProposedMessage(__tact_dict_get_int_cell($proposal'messages, 257, $i));
+    }
+    return (($self'managable, $self'members, $self'denominator, $self'withdrawFee), ());
+}
+
+(((slice, cell, int, int)), ()) $__gen_DAOWithSplitter_receive_CreateProposal((slice, cell, int, int) $self, (int, cell) $proposal) impure {
+    var ($self'managable, $self'members, $self'denominator, $self'withdrawFee) = $self;
+    var ($proposal'queryId, $proposal'messages) = $proposal;
+    var ($ctx'bounced, $ctx'sender, $ctx'value, $ctx'raw) = __tact_context_get();
+    var ($parsedAddr'wc, $parsedAddr'hash) = parse_std_addr($ctx'sender);
+    int $maybeMember = __tact_dict_get_int_int($self'members, 257, $parsedAddr'hash, 257);
+    throw_unless(17253, (~ null?($maybeMember)));
+    throw_unless(49769, ($ctx'value > (50000000 * 2)));
+    var ($proposalInit'code, $proposalInit'data) = $__gen_Proposal_init_child(__tact_context_sys, my_address(), $__gen_DAOWithSplitter_minimumVotes(($self'managable, $self'members, $self'denominator, $self'withdrawFee)), $self'members, $proposal'messages);
+    slice $proposalAddress = $contractAddress(($proposalInit'code, $proposalInit'data));
+    $send((false, $proposalAddress, 0, 64, __gen_writecell_Deploy(($proposal'queryId)), $proposalInit'code, $proposalInit'data));
+    return (($self'managable, $self'members, $self'denominator, $self'withdrawFee), ());
+}
+
+((slice, cell, int, int), ()) $__gen_DAOWithSplitter_receive_comment_088498875f54c5f944f42d323f454dea2c39c21a7288b107cfbf31c5746228df((slice, cell, int, int) $self) impure {
+    var ($self'managable, $self'members, $self'denominator, $self'withdrawFee) = $self;
+    return (($self'managable, $self'members, $self'denominator, $self'withdrawFee), ());
+}
+
+((slice, cell, int, int), ()) $__gen_DAOWithSplitter_receive_comment_c1c11d1f7fd92f290d981a0199b5192a8987f40e1ee7bf341a386bae13dbc5e5((slice, cell, int, int) $self) impure {
+    var ($self'managable, $self'members, $self'denominator, $self'withdrawFee) = $self;
+    return (($self'managable, $self'members, $self'denominator, $self'withdrawFee), ());
+}
+
+((slice, cell, int, int), ()) $__gen_DAOWithSplitter_receive_comment_250b76e2b9576fc6b4c45129483006b0003a0c39b6f7ae413d177f4e3479dbca((slice, cell, int, int) $self) impure {
+    var ($self'managable, $self'members, $self'denominator, $self'withdrawFee) = $self;
+    var ($ctx'bounced, $ctx'sender, $ctx'value, $ctx'raw) = __tact_context_get();
+    var ($parsedAddr'wc, $parsedAddr'hash) = parse_std_addr($ctx'sender);
+    int $maybeMember = __tact_dict_get_int_int($self'members, 257, $parsedAddr'hash, 257);
+    throw_unless(17253, (~ null?($maybeMember)));
+    throw_unless(14720, ((__tact_my_balance() - $self'withdrawFee) > 100000000));
+    $send((false, $self'managable, $self'withdrawFee, 1, __gen_writecell_WithdrawStake(($random(1, 18446744073709552000), 1000000000, 0)), null(), null()));
+    return (($self'managable, $self'members, $self'denominator, $self'withdrawFee), ());
+}
+
+((slice, cell, int, int), ()) $__gen_DAOWithSplitter_receive_comment_05a0b75ac6180d673399ec546c374c22ad7b54bfcf16d736fc78e9e173d87372((slice, cell, int, int) $self) impure {
+    var ($self'managable, $self'members, $self'denominator, $self'withdrawFee) = $self;
+    var ($ctx'bounced, $ctx'sender, $ctx'value, $ctx'raw) = __tact_context_get();
+    int $value = ($ctx'value - 100000000);
+    if (($value <= 0)) {
+        return (($self'managable, $self'members, $self'denominator, $self'withdrawFee), ());
+    }
+    ($self'managable, $self'members, $self'denominator, $self'withdrawFee)~$__gen_DAOWithSplitter_splitAndSend($value);
+    return (($self'managable, $self'members, $self'denominator, $self'withdrawFee), ());
+}
+
+(((slice, cell, int, int)), ()) $__gen_DAOWithSplitter_receive_WithdrawStakeResponse((slice, cell, int, int) $self, (int) $msg) impure {
+    var ($self'managable, $self'members, $self'denominator, $self'withdrawFee) = $self;
+    var ($msg'queryId) = $msg;
+    var ($ctx'bounced, $ctx'sender, $ctx'value, $ctx'raw) = __tact_context_get();
+    int $value = ($ctx'value - 100000000);
+    if (($value <= 0)) {
+        return (($self'managable, $self'members, $self'denominator, $self'withdrawFee), ());
+    }
+    ($self'managable, $self'members, $self'denominator, $self'withdrawFee)~$__gen_DAOWithSplitter_splitAndSend($value);
+    return (($self'managable, $self'members, $self'denominator, $self'withdrawFee), ());
+}
+
+(((slice, cell, int, int)), ()) $__gen_DAOWithSplitter_receive_WithdrawStakeDelayed((slice, cell, int, int) $self, (int) $msg) impure {
+    var ($self'managable, $self'members, $self'denominator, $self'withdrawFee) = $self;
+    var ($msg'queryId) = $msg;
+    return (($self'managable, $self'members, $self'denominator, $self'withdrawFee), ());
+}
+
+
+() recv_internal(int msg_value, cell in_msg_cell, slice in_msg) impure {
+    
+    ;; Parse incoming message
+    int op = 0;
+    if (slice_bits(in_msg) >= 32) {
+        op = in_msg.preload_uint(32);
+    }
+    var cs = in_msg_cell.begin_parse();
+    var msg_flags = cs~load_uint(4);
+    var msg_bounced = ((msg_flags & 1) == 1 ? true : false);
+    slice msg_sender_addr = cs~load_msg_addr();
+    __tact_context = (msg_bounced, msg_sender_addr, msg_value, cs);
+    
+    ;; Handle bounced messages
+    if (msg_bounced) {
+        return ();
+    }
+    
+    ;; Receive ExecuteProposal message
+    if (op == 401062099) {
+        var self = __gen_load_DAOWithSplitter();
+        var msg = in_msg~__gen_read_ExecuteProposal();
+        self~$__gen_DAOWithSplitter_receive_ExecuteProposal(msg);
+        __gen_store_DAOWithSplitter(self);
+        return ();
+    }
+    
+    ;; Receive CreateProposal message
+    if (op == 335480027) {
+        var self = __gen_load_DAOWithSplitter();
+        var msg = in_msg~__gen_read_CreateProposal();
+        self~$__gen_DAOWithSplitter_receive_CreateProposal(msg);
+        __gen_store_DAOWithSplitter(self);
+        return ();
+    }
+    
+    ;; Receive WithdrawStakeResponse message
+    if (op == 601104865) {
+        var self = __gen_load_DAOWithSplitter();
+        var msg = in_msg~__gen_read_WithdrawStakeResponse();
+        self~$__gen_DAOWithSplitter_receive_WithdrawStakeResponse(msg);
+        __gen_store_DAOWithSplitter(self);
+        return ();
+    }
+    
+    ;; Receive WithdrawStakeDelayed message
+    if (op == 1958425639) {
+        var self = __gen_load_DAOWithSplitter();
+        var msg = in_msg~__gen_read_WithdrawStakeDelayed();
+        self~$__gen_DAOWithSplitter_receive_WithdrawStakeDelayed(msg);
+        __gen_store_DAOWithSplitter(self);
+        return ();
+    }
+    
+    ;; Text Receivers
+    if (op == 0) {
+        var text_op = slice_hash(in_msg);
+        
+        ;; Receive "Topup DAO" message
+        if (text_op == 0x088498875f54c5f944f42d323f454dea2c39c21a7288b107cfbf31c5746228df) {
+            var self = __gen_load_DAOWithSplitter();
+            self~$__gen_DAOWithSplitter_receive_comment_088498875f54c5f944f42d323f454dea2c39c21a7288b107cfbf31c5746228df();
+            __gen_store_DAOWithSplitter(self);
+            return ();
+        }
+        
+        ;; Receive "Terminated" message
+        if (text_op == 0xc1c11d1f7fd92f290d981a0199b5192a8987f40e1ee7bf341a386bae13dbc5e5) {
+            var self = __gen_load_DAOWithSplitter();
+            self~$__gen_DAOWithSplitter_receive_comment_c1c11d1f7fd92f290d981a0199b5192a8987f40e1ee7bf341a386bae13dbc5e5();
+            __gen_store_DAOWithSplitter(self);
+            return ();
+        }
+        
+        ;; Receive "Withdraw" message
+        if (text_op == 0x250b76e2b9576fc6b4c45129483006b0003a0c39b6f7ae413d177f4e3479dbca) {
+            var self = __gen_load_DAOWithSplitter();
+            self~$__gen_DAOWithSplitter_receive_comment_250b76e2b9576fc6b4c45129483006b0003a0c39b6f7ae413d177f4e3479dbca();
+            __gen_store_DAOWithSplitter(self);
+            return ();
+        }
+        
+        ;; Receive "Gift" message
+        if (text_op == 0x05a0b75ac6180d673399ec546c374c22ad7b54bfcf16d736fc78e9e173d87372) {
+            var self = __gen_load_DAOWithSplitter();
+            self~$__gen_DAOWithSplitter_receive_comment_05a0b75ac6180d673399ec546c374c22ad7b54bfcf16d736fc78e9e173d87372();
+            __gen_store_DAOWithSplitter(self);
+            return ();
+        }
+    }
+    
+    throw(130);
+}
+
+_ supported_interfaces() method_id {
+    return (
+        "org.ton.introspection.v0"H >> 128,
+        "org.ton.abi.ipfs.v0"H >> 128
+    );
+}
+
+_ get_abi_ipfs() {
+    return "ipfs://QmTwXbciiUaxNAaEY18nhHtSiiMaYMR8BhbWax4qkwf7o4";
+}

@@ -1,0 +1,334 @@
+forall X -> X __tact_not_null(X x) { throw_if(128, null?(x)); return x; }
+
+global (int, slice, int, slice) __tact_context;
+global cell __tact_context_sys;
+
+(int, slice, int, slice) __tact_context_get() inline { return __tact_context; }
+
+() __tact_verify_address(slice address) inline {
+    throw_unless(136, address.slice_bits() != 267);
+}
+
+builder __tact_store_bool(builder b, int v) inline {
+    b = b.store_int(v, 1);
+    return b;
+}
+
+(slice, slice) __tact_load_address(slice cs) inline {
+    slice raw = cs~load_msg_addr();
+    __tact_verify_address(raw);
+    return (cs, raw);
+}
+
+builder __tact_store_address(builder b, slice address) inline {
+    __tact_verify_address(address);
+    b = b.store_slice(address);
+    return b;
+}
+
+(cell, ()) __tact_dict_set_int_int(cell d, int kl, int k, int v, int vl) inline {
+    if (null?(v)) {
+        var (r, ok) = idict_delete?(d, kl, k);
+        return (r, ());
+    } else {
+        return (idict_set_builder(d, kl, k, begin_cell().store_int(v, vl)), ());
+    }
+}
+
+int __tact_dict_get_int_int(cell d, int kl, int k, int vl) inline {
+    var (r, ok) = idict_get?(d, kl, k);
+    if (ok) {
+        return r~load_int(vl);
+    } else {
+        return null();
+    }
+}
+
+tuple __tact_string_builder_start(builder b) inline {
+    return tpush(tpush(empty_tuple(), b), null());
+}
+
+tuple __tact_string_builder_start_comment() inline {
+    return __tact_string_builder_start(begin_cell().store_uint(0, 32));
+}
+
+cell __tact_string_builder_end(tuple builders) inline {
+    (builder b, tuple tail) = uncons(builders);
+    cell c = b.end_cell();
+    while(~ null?(tail)) {
+        (b, tail) = uncons(tail);
+        c = b.store_ref(c).end_cell();
+    }
+    return c;
+}
+
+((tuple), ()) __tact_string_builder_append(tuple builders, slice sc) inline_ref {
+    int sliceRefs = slice_refs(sc);
+    int sliceBits = slice_bits(sc);
+
+    while((sliceBits > 0) | (sliceRefs > 0)) {
+
+        ;; Load the current builder
+        (builder b, tuple tail) = uncons(builders);
+        int remBytes = 127 - (builder_bits(b) / 8);
+        int exBytes = sliceBits / 8;
+
+        ;; Append bits
+        int amount = min(remBytes, exBytes);
+        if (amount > 0) {
+            slice read = sc~load_bits(amount * 8);
+            b = b.store_slice(read);
+        }
+
+        ;; Update builders
+        builders = cons(b, tail);
+
+        ;; Check if we need to add a new cell and continue
+        if (exBytes - amount > 0) {
+            var bb = begin_cell();
+            builders = cons(bb, builders);
+            sliceBits = (exBytes - amount) * 8;
+        } elseif (sliceRefs > 0) {
+            sc = sc~load_ref().begin_parse();
+            sliceRefs = slice_refs(sc);
+            sliceBits = slice_bits(sc);
+        } else {
+            sliceBits = 0;
+            sliceRefs = 0;
+        }
+    }
+
+    return ((builders), ());
+}
+
+(slice, ((int))) __gen_read_Deploy(slice sc_0) inline_ref {
+    throw_unless(129, sc_0~load_uint(32) == 2490013878);
+    var v'queryId = sc_0~load_uint(64);
+    return (sc_0, (v'queryId));
+}
+
+builder __gen_write_ExecuteProposal(builder build_0, (cell) v) inline_ref {
+    var (v'messages) = v;
+    build_0 = store_uint(build_0, 401062099, 32);
+    build_0 = build_0.store_dict(v'messages);
+    return build_0;
+}
+
+cell __gen_writecell_ExecuteProposal((cell) v) inline_ref {
+    return __gen_write_ExecuteProposal(begin_cell(), v).end_cell();
+}
+
+builder __gen_write_Proposal(builder build_0, (slice, cell, int, int, int, cell) v) inline_ref {
+    var (v'owner, v'members, v'votesNeeded, v'agreed, v'disagreed, v'proposal) = v;
+    build_0 = __tact_store_address(build_0, v'owner);
+    build_0 = build_0.store_dict(v'members);
+    build_0 = build_0.store_int(v'votesNeeded, 257);
+    build_0 = build_0.store_int(v'agreed, 257);
+    var build_1 = begin_cell();
+    build_1 = build_1.store_int(v'disagreed, 257);
+    build_1 = build_1.store_dict(v'proposal);
+    build_0 = store_ref(build_0, build_1.end_cell());
+    return build_0;
+}
+
+(slice, ((slice, cell, int, int, int, cell))) __gen_read_Proposal(slice sc_0) inline_ref {
+    var v'owner = sc_0~__tact_load_address();
+    var v'members = sc_0~load_dict();
+    var v'votesNeeded = sc_0~load_int(257);
+    var v'agreed = sc_0~load_int(257);
+    slice sc_1 = sc_0~load_ref().begin_parse();
+    var v'disagreed = sc_1~load_int(257);
+    var v'proposal = sc_1~load_dict();
+    return (sc_0, (v'owner, v'members, v'votesNeeded, v'agreed, v'disagreed, v'proposal));
+}
+
+(slice, cell, int, int, int, cell) __gen_load_Proposal() inline_ref {
+    slice sc = get_data().begin_parse();
+    __tact_context_sys = sc~load_ref();
+    return sc~__gen_read_Proposal();
+}
+
+() __gen_store_Proposal((slice, cell, int, int, int, cell) v) impure inline_ref {
+    builder b = begin_cell();
+    b = b.store_ref(__tact_context_sys);
+    b = __gen_write_Proposal(b, v);
+    set_data(b.end_cell());
+}
+
+;; String "Terminated"
+slice __gen_str_1453887311() asm "B{b5ee9c7241010101000c0000145465726d696e61746564edd7c05e} B>boc <s PUSHSLICE";
+
+() $send((int, slice, int, int, cell, cell, cell) $params) impure {
+    var (($params'bounce, $params'to, $params'value, $params'mode, $params'body, $params'code, $params'data)) = $params;
+    builder $b = begin_cell();
+    $b = store_int($b, 1, 2);
+    $b = __tact_store_bool($b, $params'bounce);
+    $b = store_int($b, 0, 3);
+    $b = __tact_store_address($b, $params'to);
+    $b = store_coins($b, $params'value);
+    $b = store_int($b, 0, ((((1 + 4) + 4) + 64) + 32));
+    if (((~ null?($params'code)) | (~ null?($params'data)))) {
+        $b = __tact_store_bool($b, true);
+        builder $bc = begin_cell();
+        $bc = __tact_store_bool($bc, false);
+        $bc = __tact_store_bool($bc, false);
+        if ((~ null?($params'code))) {
+            $bc = __tact_store_bool($bc, true);
+            $bc = store_ref($bc, __tact_not_null($params'code));
+        } else {
+            $bc = __tact_store_bool($bc, false);
+        }
+        if ((~ null?($params'data))) {
+            $bc = __tact_store_bool($bc, true);
+            $bc = store_ref($bc, __tact_not_null($params'data));
+        } else {
+            $bc = __tact_store_bool($bc, false);
+        }
+        $bc = __tact_store_bool($bc, false);
+        $b = __tact_store_bool($b, true);
+        $b = store_ref($b, end_cell($bc));
+    } else {
+        $b = __tact_store_bool($b, false);
+    }
+    cell $body = $params'body;
+    if ((~ null?($body))) {
+        $b = __tact_store_bool($b, true);
+        $b = store_ref($b, __tact_not_null($body));
+    } else {
+        $b = __tact_store_bool($b, false);
+    }
+    cell $c = end_cell($b);
+    send_raw_message($c, $params'mode);
+}
+
+cell $__gen_String_asComment(slice $self) impure {
+    var ($self) = $self;
+    tuple $b = __tact_string_builder_start_comment();
+    $b~__tact_string_builder_append($self);
+    return __tact_string_builder_end($b);
+}
+
+((slice, cell, int, int, int, cell), ()) $__gen_Proposal_executeProposal((slice, cell, int, int, int, cell) $self) impure {
+    var (($self'owner, $self'members, $self'votesNeeded, $self'agreed, $self'disagreed, $self'proposal)) = $self;
+    $send((false, $self'owner, 0, (128 + 32), __gen_writecell_ExecuteProposal(($self'proposal)), null(), null()));
+    return (($self'owner, $self'members, $self'votesNeeded, $self'agreed, $self'disagreed, $self'proposal), ());
+}
+
+((slice, cell, int, int, int, cell), ()) $__gen_Proposal_terminateProposal((slice, cell, int, int, int, cell) $self) impure {
+    var (($self'owner, $self'members, $self'votesNeeded, $self'agreed, $self'disagreed, $self'proposal)) = $self;
+    $send((false, $self'owner, 0, (128 + 32), $__gen_String_asComment(__gen_str_1453887311()), null(), null()));
+    return (($self'owner, $self'members, $self'votesNeeded, $self'agreed, $self'disagreed, $self'proposal), ());
+}
+
+slice $__gen_Proposal_owner((slice, cell, int, int, int, cell) $self) impure {
+    var (($self'owner, $self'members, $self'votesNeeded, $self'agreed, $self'disagreed, $self'proposal)) = $self;
+    return $self'owner;
+}
+
+_ $__gen_get_owner() method_id(83229) {
+    var self = __gen_load_Proposal();
+    var res = $__gen_Proposal_owner(self);
+    return res;
+}
+
+((slice, cell, int, int, int, cell), ()) $__gen_Proposal_receive_comment_cc49ce12f102c48470d91cfdfed07d9c8207f1338503bbd19198632e6c84e5b9((slice, cell, int, int, int, cell) $self) impure {
+    var ($self'owner, $self'members, $self'votesNeeded, $self'agreed, $self'disagreed, $self'proposal) = $self;
+    var ($ctx'bounced, $ctx'sender, $ctx'value, $ctx'raw) = __tact_context_get();
+    var ($addrInfo'wc, $addrInfo'hash) = parse_std_addr($ctx'sender);
+    throw_unless(44310, ($addrInfo'wc == 0));
+    int $a = __tact_dict_get_int_int($self'members, 257, $addrInfo'hash, 257);
+    throw_unless(34833, (~ null?($a)));
+    throw_unless(11100, ($a != 0));
+    $self'agreed = ($self'agreed + 1);
+    $self'members~__tact_dict_set_int_int(257, $addrInfo'hash, 0, 257);
+    if (($self'agreed >= $self'votesNeeded)) {
+        ($self'owner, $self'members, $self'votesNeeded, $self'agreed, $self'disagreed, $self'proposal)~$__gen_Proposal_executeProposal();
+    }
+    return (($self'owner, $self'members, $self'votesNeeded, $self'agreed, $self'disagreed, $self'proposal), ());
+}
+
+((slice, cell, int, int, int, cell), ()) $__gen_Proposal_receive_comment_cb30be6318277305456e98f5e118901f7631cc861491d5a0f6da402bde50286a((slice, cell, int, int, int, cell) $self) impure {
+    var ($self'owner, $self'members, $self'votesNeeded, $self'agreed, $self'disagreed, $self'proposal) = $self;
+    var ($ctx'bounced, $ctx'sender, $ctx'value, $ctx'raw) = __tact_context_get();
+    var ($addrInfo'wc, $addrInfo'hash) = parse_std_addr($ctx'sender);
+    throw_unless(44310, ($addrInfo'wc == 0));
+    int $a = __tact_dict_get_int_int($self'members, 257, $addrInfo'hash, 257);
+    throw_unless(34833, (~ null?($a)));
+    throw_unless(11100, ($a != 0));
+    $self'disagreed = ($self'disagreed + 1);
+    $self'members~__tact_dict_set_int_int(257, $addrInfo'hash, 0, 257);
+    if (($self'disagreed >= $self'votesNeeded)) {
+        ($self'owner, $self'members, $self'votesNeeded, $self'agreed, $self'disagreed, $self'proposal)~$__gen_Proposal_terminateProposal();
+    }
+    return (($self'owner, $self'members, $self'votesNeeded, $self'agreed, $self'disagreed, $self'proposal), ());
+}
+
+(((slice, cell, int, int, int, cell)), ()) $__gen_Proposal_receive_Deploy((slice, cell, int, int, int, cell) $self, (int) $deploy) impure {
+    var ($self'owner, $self'members, $self'votesNeeded, $self'agreed, $self'disagreed, $self'proposal) = $self;
+    var ($deploy'queryId) = $deploy;
+    return (($self'owner, $self'members, $self'votesNeeded, $self'agreed, $self'disagreed, $self'proposal), ());
+}
+
+
+() recv_internal(int msg_value, cell in_msg_cell, slice in_msg) impure {
+    
+    ;; Parse incoming message
+    int op = 0;
+    if (slice_bits(in_msg) >= 32) {
+        op = in_msg.preload_uint(32);
+    }
+    var cs = in_msg_cell.begin_parse();
+    var msg_flags = cs~load_uint(4);
+    var msg_bounced = ((msg_flags & 1) == 1 ? true : false);
+    slice msg_sender_addr = cs~load_msg_addr();
+    __tact_context = (msg_bounced, msg_sender_addr, msg_value, cs);
+    
+    ;; Handle bounced messages
+    if (msg_bounced) {
+        return ();
+    }
+    
+    ;; Receive Deploy message
+    if (op == 2490013878) {
+        var self = __gen_load_Proposal();
+        var msg = in_msg~__gen_read_Deploy();
+        self~$__gen_Proposal_receive_Deploy(msg);
+        __gen_store_Proposal(self);
+        return ();
+    }
+    
+    ;; Text Receivers
+    if (op == 0) {
+        var text_op = slice_hash(in_msg);
+        
+        ;; Receive "Agree" message
+        if (text_op == 0xcc49ce12f102c48470d91cfdfed07d9c8207f1338503bbd19198632e6c84e5b9) {
+            var self = __gen_load_Proposal();
+            self~$__gen_Proposal_receive_comment_cc49ce12f102c48470d91cfdfed07d9c8207f1338503bbd19198632e6c84e5b9();
+            __gen_store_Proposal(self);
+            return ();
+        }
+        
+        ;; Receive "Disagree" message
+        if (text_op == 0xcb30be6318277305456e98f5e118901f7631cc861491d5a0f6da402bde50286a) {
+            var self = __gen_load_Proposal();
+            self~$__gen_Proposal_receive_comment_cb30be6318277305456e98f5e118901f7631cc861491d5a0f6da402bde50286a();
+            __gen_store_Proposal(self);
+            return ();
+        }
+    }
+    
+    throw(130);
+}
+
+_ supported_interfaces() method_id {
+    return (
+        "org.ton.introspection.v0"H >> 128,
+        "org.ton.abi.ipfs.v0"H >> 128,
+        "org.ton.ownable"H >> 128
+    );
+}
+
+_ get_abi_ipfs() {
+    return "ipfs://QmNXysM2og1FUdF6i1Vo7tqEVJmWMQ3kci1cfeMCkcCWPx";
+}
