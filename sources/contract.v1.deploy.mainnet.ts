@@ -30,10 +30,10 @@ const epnMembers = [{
 
 const dan = Address.parse('EQA-daKmzkx5nLMKT465D_-uyhwgBTEucMeyvfGLfzHoWspv');
 
-const daoMorgen1 = createVanity(dan, 0, 'a60188f3fe0cb3a73548285ad275a551ffe3eae968bf395486d322c34cf8b271');
-const daoMorgen2 = createVanity(dan, 0, '5a5564201cbd2d7494cb9395fdb0fa9e0889ef29c346712be8da17b49d7064e4');
-const daoEpn1 = createVanity(dan, 0, '3ed63b36a433cc1ec9b4fbced39914459884fd9c91ca6d6788dfae955486d50e');
-const daoEpn2 = createVanity(dan, 0, '99bdd8d4cf989044fb7b14e30818bedcbf008afce1681ca7a67052f5a2403ee2');
+const daoMorgen1 = createVanity(dan, 0, '82bd573d7a72a1404f40b15faf151c911f3e2151db25a6f476ed52592849d499', 'v1r2');
+const daoMorgen2 = createVanity(dan, 0, '23a457da2c37e4b5b937856ecf0ae42bce1366ba7902cac92fc8d23ae382128f', 'v1r2');
+const daoEpn1 = createVanity(dan, 0, '1f478c0c482183903c8fc0e21dc771f85dba87975d5edcd2c08b720e1f2e03bd', 'v1r2');
+const daoEpn2 = createVanity(dan, 0, '88cdc155d50683121eabc56fb81c46602aabf6c2ec78edb4cabf52b56821ab58', 'v1r2');
 
 
 function sep() {

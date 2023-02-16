@@ -8,9 +8,9 @@ import {
     storeStateInit,
 } from "ton";
 
-export function createVanity(owner: Address, workchain: number, seed: string) {
+export function createVanity(owner: Address, workchain: number, seed: string, version: 'v1' | 'v1r2' = 'v1') {
     const vanityCode = Cell.fromBoc(
-        Buffer.from('te6ccgEBAgEAJwABFP8A9KQT9LzyyAsBADDTMe1E0HXXIfpAMYMH1yHR1NTRAfsE7VQ=',  'base64')
+        Buffer.from(version === 'v1' ? 'te6ccgEBAgEAJwABFP8A9KQT9LzyyAsBADDTMe1E0HXXIfpAMYMH1yHR1NTRAfsE7VQ=' : 'te6ccgEBAgEAMgABFP8A9KQT9LzyyAsBAEbT7UTQddch+kCDB9ch0QLQ0wMx+kAwWMcF8ojU1NEB+wTtVA==',  'base64')
     )[0];
     const vanityData = beginCell().storeUint(0, 5).storeAddress(owner).storeBuffer(Buffer.from(seed, "hex")).endCell();
 
