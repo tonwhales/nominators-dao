@@ -14,14 +14,17 @@ function main() {
         dao: vanities.v0.daoEpn2.address,
         pool: pools.epn2,
         newDao: vanities.v1.daoEpn2.address,
+        splitBalance: true,
     }, {
         dao: vanities.v0.daoMorgen1.address,
         pool: pools.morgen1,
         newDao: vanities.v1.daoMorgen1.address,
+        splitBalance: true,
     }, {
         dao: vanities.v0.daoMorgen2.address,
         pool: pools.morgen2,
         newDao: vanities.v1.daoMorgen2.address, 
+        splitBalance: true,
     }];
 
     console.log('UPDATE OWNERS TO V1 CONTRACT');
