@@ -8,7 +8,8 @@ import {
     storeStateInit,
 } from "ton";
 
-export function createVanity(owner: Address, workchain: number, seed: string, version: 'v1' | 'v1r2' = 'v1') {
+export type Vanity = { address: Address, init: { code: Cell, data: Cell } };
+export function createVanity(owner: Address, workchain: number, seed: string, version: 'v1' | 'v1r2' = 'v1'): Vanity {
     const vanityCode = Cell.fromBoc(
         Buffer.from(version === 'v1' ? 'te6ccgEBAgEAJwABFP8A9KQT9LzyyAsBADDTMe1E0HXXIfpAMYMH1yHR1NTRAfsE7VQ=' : 'te6ccgEBAgEAMgABFP8A9KQT9LzyyAsBAEbT7UTQddch+kCDB9ch0QLQ0wMx+kAwWMcF8ojU1NEB+wTtVA==',  'base64')
     )[0];
