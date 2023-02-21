@@ -1,6 +1,6 @@
 import { randomBytes } from 'crypto';
 import { Address, beginCell, Cell, comment, Dictionary, DictionaryValue } from 'ton';
-import { loadProposedMessage, ProposedMessage, storeCreateProposal, storeProposedMessage } from "../v0/output/dao-v0_DAOWithSplitter";
+import { loadProposedMessage, ProposedMessage, storeCreateProposal, storeProposedMessage } from "../contract/v0/output/dao-v0_DAOWithSplitter";
 
 function dictValueParserProposedMessage(): DictionaryValue<ProposedMessage> {
     return {

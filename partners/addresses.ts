@@ -1,11 +1,13 @@
 import { Address } from 'ton-core';
-import { createVanity } from './utils/vanity';
+import { createVanity } from '../utils/vanity';
 
 export const pools = {
     morgen1: Address.parse('EQDkCrGT_lwaKXZf6y3YuJI213PrH60JqoQQO-GT2VMorgen'),
     morgen2: Address.parse('EQBWc3jORk0evkkZYV4OanMhcfJEyz_mN7rQWYM7wiMorgen'),
     epn1: Address.parse('EQBYtJtQzU3M-AI23gFM91tW6kYlblVtjej59gS8P3uJ_ePN'),
-    epn2: Address.parse('EQCpCjQigwF27KQ588VhQv9jm_DUuL_ZLY3HCf_9yZW5_ePN')
+    epn2: Address.parse('EQCpCjQigwF27KQ588VhQv9jm_DUuL_ZLY3HCf_9yZW5_ePN'),
+    keeper1: Address.parse('EQAA_5_dizuA1w6OpzTSYvXhvUwYTDNTW_MZDdZ0CGKeeper'),
+    keeper2: Address.parse('EQDvvBmP3wUcjoXPY1jHfT4-fgb294imVYH5EHdLnAKeeper'),
 }
 
 
@@ -22,6 +24,8 @@ export const vanities = {
         daoMorgen2: createVanity(dan, 0, '23a457da2c37e4b5b937856ecf0ae42bce1366ba7902cac92fc8d23ae382128f', 'v1r2'),
         daoEpn1: createVanity(dan, 0, '1f478c0c482183903c8fc0e21dc771f85dba87975d5edcd2c08b720e1f2e03bd', 'v1r2'),
         daoEpn2: createVanity(dan, 0, '88cdc155d50683121eabc56fb81c46602aabf6c2ec78edb4cabf52b56821ab58', 'v1r2'),
+        daoKeeper1: createVanity(dan, 0, '859cb7a6332804402214c46bfd93ea8997480d5f48be9a8840354790a9859919', 'v1r2'),
+        daoKeeper2: createVanity(dan, 0, '9d7e08cdf682f24e2a60b2aeda059f118bbf9fc0285bae4def5f21a9b4d23d5b', 'v1r2'),
     }
 }
 
@@ -47,4 +51,14 @@ export const epnMembers = [{
     address: Address.parse('EQBxdJOW5QQi3q_ZDxAofT-XP4jr3GFxGuSd_8UtrChecLGS'),
     power: 6n,
     name: 'ePN (Maintenance)'
+}];
+
+export const keeperMembers = [{
+    address: Address.parse('EQAreUglPfFcA6CMOTSXHnwoOP8ZEN00Lfb8O574keTkxwoO'),
+    power: 20n,
+    name: 'Tonkeeper'
+}, {
+    address: Address.parse('EQAWrkA_GfFFkCMsrA1xiRZ7kHZEty8ZCfcl3O8RA_zlx_Ep'),
+    power: 20n,
+    name: 'Whales'
 }];

@@ -1,6 +1,6 @@
 import { Address, Dictionary } from 'ton';
-import { DAOWithSplitter as DAOWithSplitterV0 } from '../v0/output/dao-v0_DAOWithSplitter';
-import { DAOWithSplitter as DAOWithSplitterV1 } from '../v1/output/dao-v1_DAOWithSplitter';
+import { DAOWithSplitter as DAOWithSplitterV0 } from '../contract/v0/output/dao-v0_DAOWithSplitter';
+import { DAOWithSplitter as DAOWithSplitterV1 } from '../contract/v1/output/dao-v1_DAOWithSplitter';
 
 
 export async function buildInitV0(pool: Address, members: { address: Address, power: bigint, name: string }[]) {

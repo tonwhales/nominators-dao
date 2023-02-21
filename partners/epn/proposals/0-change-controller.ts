@@ -1,8 +1,8 @@
 import { Address, beginCell, toNano } from 'ton-core';
-import { pools, vanities } from '../addresses';
-import { randomQueryId } from '../utils/queryId';
-import { createChangeAddressCommand } from '../utils/nominators';
-import { createProposalPayload, proposedMessage } from '../utils/proposal';
+import { pools, vanities } from '../../addresses';
+import { randomQueryId } from '../../../utils/queryId';
+import { createChangeAddressCommand } from '../../../utils/nominators';
+import { createProposalPayload, proposedMessage } from '../../../utils/proposal';
 
 function main() {
     let queryId = randomQueryId();

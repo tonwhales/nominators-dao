@@ -1,11 +1,11 @@
 {
     "projects": [{
         "name": "dao-v0",
-        "path": "./sources/v0/dao.tact",
-        "output": "./sources/v0/output"
+        "path": "./contract/v0/dao.tact",
+        "output": "./contract/v0/output"
     }, {
         "name": "dao-v1",
-        "path": "./sources/v1/dao.tact",
-        "output": "./sources/v1/output"
+        "path": "./contract/v1/dao.tact",
+        "output": "./contract/v1/output"
     }]
 }

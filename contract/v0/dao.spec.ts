@@ -1,7 +1,7 @@
 import { Address, comment, Dictionary, toNano } from "ton";
 import { ContractSystem, Treasure } from "ton-emulator";
-import { Proposal, ProposedMessage } from "./output/dao_Proposal";
-import { DAOWithSplitter } from "./output/dao_DAOWithSplitter";
+import { Proposal, ProposedMessage } from "./output/dao-v0_Proposal";
+import { DAOWithSplitter } from "./output/dao-v0_DAOWithSplitter";
 
 describe("dao-v0", () => {
   it("should split revenue correctly", async () => {

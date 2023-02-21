@@ -1,7 +1,7 @@
 import { Address, comment, contractAddress, toNano } from "ton";
-import { buildInitV1 } from './utils/buildInit';
-import { deploy } from "./utils/deploy";
-import { printAddress, printHeader } from "./utils/print";
+import { buildInitV0 } from '../utils/buildInit';
+import { deploy } from "../utils/deploy";
+import { printAddress, printHeader } from "../utils/print";
 
 const pool = Address.parse('kQCV7ZMiCrVSnAQrXjcjvWE2yrPzwlvze5g0vjrFLwqtQPWm');
 
@@ -20,7 +20,7 @@ const pool = Address.parse('kQCV7ZMiCrVSnAQrXjcjvWE2yrPzwlvze5g0vjrFLwqtQPWm');
         name: 'Dan (Morgen)'
     }];
 
-    let init = await buildInitV1(pool, members);
+    let init = await buildInitV0(pool, members);
     let address = contractAddress(0, init);
     let deployAmount = toNano(1);
     let testnet = true;

@@ -1,9 +1,23 @@
+import { Address, Cell, } from "ton";
 import qs from 'qs';
-import { Address, Cell } from "ton";
-import { epnMembers, morgenMembers, pools, vanities } from './addresses';
-import { buildInitV1 } from './utils/buildInit';
-import { createVanityInit, createVanityPayload, Vanity } from './utils/vanity';
+import { createVanityInit, createVanityPayload, Vanity } from './vanity';
+import { buildInitV1 } from './buildInit';
 
+export function printSeparator() {
+    console.log("========================================================================================");
+}
+
+export function printHeader(name: string) {
+    printSeparator();
+    console.log('Contract: ' + name);
+    printSeparator();
+}
+
+export function printAddress(address: Address, testnet: boolean = true) {
+    console.log("Address: " + address.toString({ testOnly: testnet }));
+    console.log("Explorer: " + "https://" + (testnet ? 'testnet.' : '') + "tonapi.io/account/" + address.toString({ testOnly: testnet }));
+    printSeparator();
+}
 
 function sep() {
     console.log(new Array<string>(80).fill('=').join(''));
@@ -19,7 +33,7 @@ function printDeploy(vanity: Vanity, contract: { code: Cell, data: Cell }, amoun
     console.log("Deploy: " + link);
 }
 
-async function printDeployParams(name: string, vanity: Vanity, pool: Address, members: { address: Address, power: bigint, name: string }[]) {
+export async function printDeployParams(name: string, vanity: Vanity, pool: Address, members: { address: Address, power: bigint, name: string }[]) {
     let init = await buildInitV1(pool, members);
 
     console.log(); 
@@ -34,33 +48,3 @@ async function printDeployParams(name: string, vanity: Vanity, pool: Address, me
     printDeploy(vanity, init, 250000000n, false);
     sep();
 }
-
-(async () => {
-    await printDeployParams(
-        'Morgen #1',
-        vanities.v1.daoMorgen1,
-        pools.morgen1,
-        morgenMembers,
-    );
-
-    await printDeployParams(
-        'Morgen #2',
-        vanities.v1.daoMorgen2,
-        pools.morgen2,
-        morgenMembers,
-    );
-
-    await printDeployParams(
-        'ePN #1',
-        vanities.v1.daoEpn1,
-        pools.epn1,
-        epnMembers,
-    );
-
-    await printDeployParams(
-        'ePN #2',
-        vanities.v1.daoEpn2,
-        pools.epn2,
-        epnMembers,
-    );
-})();
