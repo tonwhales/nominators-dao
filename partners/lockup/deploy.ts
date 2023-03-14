@@ -5,14 +5,14 @@ async function main() {
     await printDeployParams(
         'Lockup #1',
         vanities.v1.daoLockup1,
-        pools.keeper1,
+        pools.lockup1,
         lockupMembers,
     );
 
     await printDeployParams(
         'Lockup #2',
         vanities.v1.daoLockup2,
-        pools.keeper2,
+        pools.lockup2,
         lockupMembers,
     );
 }

@@ -89,10 +89,10 @@ export const keeperV2Members = [{
 
 export const lockupMembers = [{ 
     address: Address.parse('EQAWrkA_GfFFkCMsrA1xiRZ7kHZEty8ZCfcl3O8RA_zlx_Ep'),
-    power: 85n,
+    power: 75n,
     name: 'Whales'
 }, {
     address: Address.parse('EQBxdJOW5QQi3q_ZDxAofT-XP4jr3GFxGuSd_8UtrChecLGS'),
-    power: 15n,
+    power: 25n,
     name: 'ePN (Maintenance)'
 }];
