@@ -26,6 +26,8 @@ export const vanities = {
         daoEpn2: createVanity(dan, 0, '88cdc155d50683121eabc56fb81c46602aabf6c2ec78edb4cabf52b56821ab58', 'v1r2'),
         daoKeeper1: createVanity(dan, 0, '859cb7a6332804402214c46bfd93ea8997480d5f48be9a8840354790a9859919', 'v1r2'),
         daoKeeper2: createVanity(dan, 0, '9d7e08cdf682f24e2a60b2aeda059f118bbf9fc0285bae4def5f21a9b4d23d5b', 'v1r2'),
+        daoKeeper1v2: createVanity(dan, 0, '15d99b10ce8fa22d022c013f7f744564695264265ffaa902c24a610f6a4168ec', 'v1r2'),
+        daoKeeper2v2: createVanity(dan, 0, '9601d381b3abc529400e8f15753a54e41c6c2cd6f557e3b684e08e4184d31057', 'v1r2'),
     }
 }
 
@@ -61,4 +63,18 @@ export const keeperMembers = [{
     address: Address.parse('EQAWrkA_GfFFkCMsrA1xiRZ7kHZEty8ZCfcl3O8RA_zlx_Ep'),
     power: 20n,
     name: 'Whales'
+}];
+
+export const keeperV2Members = [{
+    address: Address.parse('EQAreUglPfFcA6CMOTSXHnwoOP8ZEN00Lfb8O574keTkxwoO'),
+    power: 175n,
+    name: 'Tonkeeper'
+}, {
+    address: Address.parse('EQAWrkA_GfFFkCMsrA1xiRZ7kHZEty8ZCfcl3O8RA_zlx_Ep'),
+    power: 175n,
+    name: 'Whales'
+}, {
+    address: Address.parse('EQBxdJOW5QQi3q_ZDxAofT-XP4jr3GFxGuSd_8UtrChecLGS'),
+    power: 50n,
+    name: 'ePN'
 }];
