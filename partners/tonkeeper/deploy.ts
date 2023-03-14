@@ -1,4 +1,4 @@
-import { keeperMembers, pools, vanities } from '../addresses';
+import { keeperMembers, keeperV2Members, pools, vanities } from '../addresses';
 import { printDeployParams } from '../../utils/print';
 
 async function main() {
@@ -20,14 +20,14 @@ async function main() {
         'Keeper v2 #1',
         vanities.v1.daoKeeper1v2,
         pools.keeper1,
-        keeperMembers,
+        keeperV2Members,
     );
 
     await printDeployParams(
         'Keeper v2 #2',
         vanities.v1.daoKeeper2v2,
         pools.keeper2,
-        keeperMembers,
+        keeperV2Members,
     );
 }
 
