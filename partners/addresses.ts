@@ -10,7 +10,7 @@ export const pools = {
     keeper2: Address.parse('EQDvvBmP3wUcjoXPY1jHfT4-fgb294imVYH5EHdLnAKeeper'),
     lockup1: Address.parse('EQDhGXtbR6ejNQucRcoyzwiaF2Ke-5T8reptsiuZ_mLockup'),
     lockup2: Address.parse('EQDg5ThqQ1t9eriIv2HkH6XUiUs_Wd4YmXZeGpnPzwLockup'),
-    atomic2: Address.parse('EQBttaH_KwCkQdb9bzWkkayqkfbzjTFZ_-9PIJSQ12Atomic'),
+    atomic1: Address.parse('EQBttaH_KwCkQdb9bzWkkayqkfbzjTFZ_-9PIJSQ12Atomic'),
 }
 
 
