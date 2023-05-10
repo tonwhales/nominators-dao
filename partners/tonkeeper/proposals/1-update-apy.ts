@@ -43,7 +43,7 @@ function main() {
     for (let cfg of config) {
         let updateExtras = createUpdateExtrasCommand(queryId, cfg.extras);
         let proposal = createProposalPayload(queryId, [
-            proposedMessage(updateExtras, BigInt(500_000_000), cfg.pool),
+            proposedMessage(updateExtras, BigInt(5_000_000_000), cfg.pool),
         ]);
 
         console.log('DAO: ', cfg.dao.toString());

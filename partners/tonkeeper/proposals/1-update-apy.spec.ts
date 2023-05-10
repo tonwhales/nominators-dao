@@ -59,13 +59,13 @@ describe('1-update-apy', () => {
             info: {
                 src: vanities.v1.daoKeeper1v2.address,
                 value: {
-                    coins: toNano(5),
+                    coins: toNano('5'),
                 },
                 bounce: false,
                 bounced: false,
                 createdAt: Math.floor(Date.now() / 1000),
                 createdLt: 0n,
-                forwardFee: 0n,
+                forwardFee: 1000000000n,
                 ihrDisabled: false,
                 ihrFee: 0n,
                 type: 'internal',
