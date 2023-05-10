@@ -7,19 +7,19 @@ import { createProposalPayload, proposedMessage } from '../../../utils/proposal'
 const keeperParams1 = {
     enabled: true,
     enabledUpgrades: true,
-    depositFee: toNano(0.1),
-    withdrawFee: toNano(0.1),
+    depositFee: toNano('0.1'),
+    withdrawFee: toNano('0.1'),
     poolFee: 25n * 100n,
-    receiptPrice: toNano(0.1),
+    receiptPrice: toNano('0.1'),
     minStake: toNano('49.8'),
 };
 const keeperParams2 = {
     enabled: true,
     enabledUpgrades: false,
-    depositFee: toNano(0.1),
-    withdrawFee: toNano(0.1),
+    depositFee: toNano('0.1'),
+    withdrawFee: toNano('0.1'),
     poolFee: 25n * 100n,
-    receiptPrice: toNano(0.1),
+    receiptPrice: toNano('0.1'),
     minStake: toNano('49.8'),
 };
 
