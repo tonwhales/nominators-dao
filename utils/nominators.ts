@@ -45,3 +45,13 @@ export function createUpdateExtrasCommand(queryId: bigint, extras: Extras) {
 
     return command;
 }
+
+export function createWithdrawUnownedCoinsCommand(queryId: bigint) {
+    const command = beginCell()
+        .storeUint(622684824, 32)
+        .storeUint(queryId, 64) // Query ID
+        .storeCoins(100000) // Gas
+        .endCell();
+
+    return command;
+}
