@@ -9,9 +9,11 @@ function main() {
     let config = [{
         dao: vanities.v1.daoKeeper1v2.address,
         pool: pools.keeper1,
+        name: "keeper1"
     }, {
         dao: vanities.v1.daoKeeper2v2.address,
         pool: pools.keeper2,
+        name: "keeper2"
     }];
 
 
@@ -26,7 +28,7 @@ function main() {
 
         console.log('DAO: ', cfg.dao.toString());
         console.log('Proposal: ', proposal.toBoc().toString('base64'));
-        console.log();
+        console.log('Name:', cfg.name);
         console.log();
     }
 }
