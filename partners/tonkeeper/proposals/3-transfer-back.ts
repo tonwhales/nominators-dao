@@ -9,7 +9,7 @@ function main() {
     console.log('Transfer back');
     console.log();
     let proposalTransferBack = createProposalPayload(queryId, [
-        proposedMessage(beginCell().endCell(), BigInt(49.99 * 1000000000), address),
+        proposedMessage(beginCell().endCell(), toNano("49.99"), address),
     ]);
 
     console.log('Proposal: ', proposalTransferBack.toBoc().toString('base64'));
