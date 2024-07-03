@@ -11,6 +11,8 @@ export const pools = {
     lockup1: Address.parse('EQDhGXtbR6ejNQucRcoyzwiaF2Ke-5T8reptsiuZ_mLockup'),
     lockup2: Address.parse('EQDg5ThqQ1t9eriIv2HkH6XUiUs_Wd4YmXZeGpnPzwLockup'),
     atomic1: Address.parse('EQBttaH_KwCkQdb9bzWkkayqkfbzjTFZ_-9PIJSQ12Atomic'),
+    morgen2_1: Address.parse('EQB163rv0MDNK0Pdl6a6vPd1IOTF7cMzvZEjvxCSUcQMafia'),
+    morgen2_2: Address.parse('EQDpaEcsGnOBOGPkf093m38c3bV-gIyUWYiyUIw45brMafia'),
 }
 
 
@@ -25,6 +27,9 @@ export const vanities = {
     v1: {
         daoMorgen1: createVanity(dan, 0, '82bd573d7a72a1404f40b15faf151c911f3e2151db25a6f476ed52592849d499', 'v1r2'),
         daoMorgen2: createVanity(dan, 0, '23a457da2c37e4b5b937856ecf0ae42bce1366ba7902cac92fc8d23ae382128f', 'v1r2'),
+
+        daoMorgen2_1: createVanity(dan, 0, '2c55f61f8a4888e29a4469b8d6c9daf3aacb6d2e00c1752ed73a5ed5e13c48da', 'v1r2'),
+        daoMorgen2_2: createVanity(dan, 0, 'c44c1b9c5db4c342141598b7d2519331f57c28f4916cc10de7c51d73f4b16b6d', 'v1r2'),
 
         daoEpn1: createVanity(dan, 0, '1f478c0c482183903c8fc0e21dc771f85dba87975d5edcd2c08b720e1f2e03bd', 'v1r2'),
         daoEpn2: createVanity(dan, 0, '88cdc155d50683121eabc56fb81c46602aabf6c2ec78edb4cabf52b56821ab58', 'v1r2'),
@@ -44,15 +49,11 @@ export const vanities = {
 
 export const morgenMembers = [{ 
     address: Address.parse('EQAWrkA_GfFFkCMsrA1xiRZ7kHZEty8ZCfcl3O8RA_zlx_Ep'),
-    power: 12n,
+    power: 1n,
     name: 'Whales'
 }, {
-    address: Address.parse('EQBxdJOW5QQi3q_ZDxAofT-XP4jr3GFxGuSd_8UtrChecLGS'),
-    power: 6n,
-    name: 'ePN'
-}, {
-    address: Address.parse('EQCi7s7EYcPzzCrmPlQHck5FerXojlPt32f5vRsbjIPtOLkM'),
-    power: 12n,
+    address: Address.parse('UQDu2Jsjg6I6I1zOXLHrkUistVdQQKFEF-_I4oJzXTEDsGD6'),
+    power: 1n,
     name: 'Morgen'
 }];
 

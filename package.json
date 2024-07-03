@@ -8,7 +8,7 @@
   "scripts": {
     "build": "tact --config ./tact.config.json",
     "test": "jest",
-    "deploy": "ts-node ./sources/contract.v1.deploy.ts",
+    "deploy": "ts-node ./contract/contract.v1.deploy.ts",
     "deploy-mainnet": "ts-node ./sources/contract.v1.deploy.mainnet.ts",
     "fake-withdraw": "ts-node ./sources/fake-withdraw.ts",
     "fake-withdraw-delayed": "ts-node ./sources/fake-withdraw-delayed.ts"
