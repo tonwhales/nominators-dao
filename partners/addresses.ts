@@ -13,6 +13,7 @@ export const pools = {
     atomic1: Address.parse('EQBttaH_KwCkQdb9bzWkkayqkfbzjTFZ_-9PIJSQ12Atomic'),
     morgen2_1: Address.parse('EQB163rv0MDNK0Pdl6a6vPd1IOTF7cMzvZEjvxCSUcQMafia'),
     morgen2_2: Address.parse('EQDpaEcsGnOBOGPkf093m38c3bV-gIyUWYiyUIw45brMafia'),
+    tangem1: Address.parse('EQATfCK1nSvCC5ELWJGEXC9rf056HYrjHYXw2FW7M_TANGEM'),
 }
 
 
@@ -44,6 +45,8 @@ export const vanities = {
         daoLockup2: createVanity(dan, 0, 'a55ff80aa983f7a05e8df2d672cd75bf6caa0a3deb19f2f067021197f23a0bd1', 'v1r2'),
 
         daoAtomic1: createVanity(dan, 0, 'cacfeda4b7ac2df3afc1166bb9f8176a309af4259650d8bed45d818eddbb1174', 'v1r2'),
+
+        daoTangem1: createVanity(dan, 0, 'ea6946bb827365e826e686aef8afbed4369c8479c65cedb6a881b04fb597e6af', 'v1r2'),
     }
 }
 
@@ -109,4 +112,15 @@ export const atomicMembers = [{
     address: Address.parse('EQBxt8Ksy1TWgkJrltUcPQQrsDrEatCz9-bdzlWuErkvZXIf'),
     power: 40n,
     name: 'Atomic'
+}];
+
+
+export const tangemMembers = [{
+    address: Address.parse('EQAWrkA_GfFFkCMsrA1xiRZ7kHZEty8ZCfcl3O8RA_zlx_Ep'),
+    power: 32n,
+    name: 'Whales'
+}, {
+    address: Address.parse('UQBh8-AdJWhjFmFJLCtZY8vBn1WdndkEUumX3SdgliNuMBgi'),
+    power: 68n,
+    name: 'StakeKit'
 }];
